@@ -1,3 +1,0 @@
----
-title: "chicken-masala-dinner"
----

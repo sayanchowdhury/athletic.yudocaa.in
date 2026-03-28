@@ -1,3 +1,0 @@
----
-title: "chicken-jeera-rice"
----

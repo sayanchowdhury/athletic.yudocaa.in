@@ -1,3 +1,0 @@
----
-title: "lemon-herb-chicken"
----

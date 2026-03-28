@@ -1,3 +1,0 @@
----
-title: "paneer-kali-mirch"
----
