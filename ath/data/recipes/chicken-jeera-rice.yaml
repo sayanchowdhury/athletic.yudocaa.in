@@ -1,0 +1,49 @@
+title: "Chicken Jeera Rice"
+slug: "chicken-jeera-rice"
+category: "lunch"
+protein_source: "chicken"
+prep_time: 5
+cook_time: 25
+total_time: 30
+servings: 1
+calories: 520
+macros:
+  protein: 38
+  carbs: 52
+  fat: 10
+tags: ["chicken", "lunch", "one-pot", "rice"]
+meal_prep: false
+description: "One-pot jeera rice with chicken. Everything cooks together — minimal cleanup."
+ingredients:
+  - item: "Chicken breast (cubed)"
+    amount: "150g"
+  - item: "Rice (washed)"
+    amount: "75g dry"
+  - item: "Cumin seeds"
+    amount: "1 tsp"
+  - item: "Onion (sliced)"
+    amount: "50g"
+  - item: "Ginger garlic paste"
+    amount: "1 tsp"
+  - item: "Turmeric"
+    amount: "¼ tsp"
+  - item: "Salt"
+    amount: "to taste"
+  - item: "Oil"
+    amount: "1 tsp"
+  - item: "Water"
+    amount: "175ml"
+  - item: "Coriander"
+    amount: "to garnish"
+  - item: "Buttermilk (side)"
+    amount: "200ml"
+steps:
+  - "Heat oil in a small pressure cooker or thick pot. Add cumin — let it splutter"
+  - "Add onion. Cook 3 min until golden"
+  - "Add ginger garlic paste. Stir 1 min"
+  - "Add chicken cubes, turmeric, salt. Cook 3 min on high stirring"
+  - "Add washed rice. Stir to coat in the masala"
+  - "Add water. Pressure cook 2 whistles or simmer covered 18 min until rice done"
+  - "Garnish with coriander. Serve with buttermilk on the side"
+reheat: "Microwave with sprinkle of water 90 sec covered."
+notes: "The buttermilk is not optional — it aids digestion and adds protein. Make it fresh: 25g curd + 150ml cold water + jeera + salt."

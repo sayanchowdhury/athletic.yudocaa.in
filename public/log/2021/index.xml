@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>2021 on athletic-log</title>
+    <link>http://localhost:1313/log/2021/</link>
+    <description>Recent content in 2021 on athletic-log</description>
+    <generator>Hugo</generator>
+    <language>en-in</language>
+    <lastBuildDate>Mon, 04 Jan 2021 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/log/2021/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Journal</title>
+      <link>http://localhost:1313/log/2021/journal/</link>
+      <pubDate>Mon, 04 Jan 2021 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/log/2021/journal/</guid>
+      <description>&lt;p&gt;This is accompanied with &lt;a href=&#34;http://localhost:1313/fitness/&#34;&gt;Hope&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;This is to maintain a daily journal of the efforts. This is to be seen from bottom&#xA;to top.&lt;/p&gt;&#xA;&lt;p&gt;To explain the jargons:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;cw: current weight&lt;/li&gt;&#xA;&lt;li&gt;gw: goal weight&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;Ok, lets start.&lt;/p&gt;&#xA;&lt;h3 id=&#34;march-24-2021&#34;&gt;March 24, 2021&lt;/h3&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;cw: 73.9&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;A day of Freeletics. I really need to get my bicycle crunches right without&#xA;hurting my neck. The first set I did it as wrong as it could be. The later ones&#xA;were better. Hopefully it gets better. What I loved? Jump Squats.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

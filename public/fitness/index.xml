@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Fitness Posts on athletic-log</title>
+    <link>http://localhost:1313/fitness/</link>
+    <description>Recent content in Fitness Posts on athletic-log</description>
+    <generator>Hugo</generator>
+    <language>en-in</language>
+    <lastBuildDate>Mon, 02 Mar 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/fitness/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hope</title>
+      <link>http://localhost:1313/fitness/2026/hope/</link>
+      <pubDate>Mon, 02 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/fitness/2026/hope/</guid>
+      <description>&lt;p&gt;A thread to lose weight, and see a healthier version of me, v2026.6?. This is inspired from closely following&#xA;&lt;a href=&#34;https://priyankasaggu11929.github.io/fitness.html&#34;&gt;Priyanka&lt;/a&gt; and &lt;a href=&#34;https://janusworx.com/fitness/&#34;&gt;Jason&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;This iteration is different from the 2021 version of weightloss. In 2021, the weightloss I did was mostly through&#xA;walking 6kms a day. This really helped with bringing the metabolism, and dropping weight in 6 months. The problem&#xA;was I looked skinny. This time I am trying a different route - I would be doing good amount of strength training&#xA;with walking, skipping or running as cardio. I want to learn something new from this journey.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Why I Started Tracking Everything</title>
+      <link>http://localhost:1313/fitness/2025/why-i-started-tracking-everything/</link>
+      <pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/fitness/2025/why-i-started-tracking-everything/</guid>
+      <description>&lt;p&gt;Six months ago I was doing the same thing most desk-job engineers do — working long hours, sleeping at 2AM, eating inconsistently, telling myself I&amp;rsquo;d start properly &amp;ldquo;next week.&amp;rdquo;&lt;/p&gt;&#xA;&lt;p&gt;The problem wasn&amp;rsquo;t motivation. It was system design.&lt;/p&gt;&#xA;&lt;p&gt;I&amp;rsquo;m a systems engineer. I build immutable infrastructure for a living. I understand that a system without observability is a system you cannot debug. And yet I was running my body as a complete black box — no inputs tracked, no outputs measured, no feedback loop.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>2021 - Hope</title>
+      <link>http://localhost:1313/fitness/2021/2021-hope/</link>
+      <pubDate>Tue, 05 Jan 2021 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/fitness/2021/2021-hope/</guid>
+      <description>&lt;p&gt;A thread to lose weight, and see a healthier version of me, v2021.6?. This is inspired from closely following&#xA;&lt;a href=&#34;https://priyankasaggu11929.github.io/fitness.html&#34;&gt;Priyanka&lt;/a&gt; and &lt;a href=&#34;https://janusworx.com/fitness/&#34;&gt;Jason&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;In the ending months of 2020, I started with regularly doing a form of excercise be&#xA;it skipping, walking, or HIIT. This has helped me lower the rest heartbeat which had&#xA;increased to a high of &amp;gt;95. Now, after 3 months it&amp;rsquo;s down to staying in the 70 range.&#xA;Somedays even staying in the 65-70 range.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

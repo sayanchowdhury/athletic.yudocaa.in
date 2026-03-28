@@ -1,0 +1,60 @@
+---
+title: "Upper A — Push Day"
+date: 2025-03-23
+type: "strength"
+duration: 50
+weight: 84.9
+waist: 94
+hevy_url: "https://hevy.com/workout/XHasG8N5Pli"
+
+workout:
+  - exercise: "Shoulder Press (Dumbbell)"
+    sets:
+      - { set: 1, weight: 15, reps: 12, warmup: true }
+      - { set: 2, weight: 25, reps: 5, warmup: true }
+      - { set: 3, weight: 30, reps: 1 }
+      - { set: 4, weight: 30, reps: 3, note: "Hit limit" }
+  - exercise: "Incline Bench Press (Barbell)"
+    sets:
+      - { set: 1, weight: 40, reps: 3 }
+      - { set: 2, weight: 40, reps: 3 }
+      - { set: 3, weight: 40, reps: 3, note: "Aim for 6-8 next session" }
+  - exercise: "Tricep Pushdowns"
+    sets:
+      - { set: 1, weight: 15, reps: 5, warmup: true }
+      - { set: 2, weight: 20, reps: 5, warmup: true }
+      - { set: 3, weight: 30, reps: 10 }
+      - { set: 4, weight: 30, reps: 10 }
+      - { set: 5, weight: 30, reps: 10 }
+  - exercise: "Face Pulls"
+    sets:
+      - { set: 1, weight: 25, reps: 15 }
+      - { set: 2, weight: 30, reps: 10 }
+      - { set: 3, weight: 35, reps: 7 }
+
+nutrition:
+  calories: 2380
+  protein: 82
+  carbs: 210
+  fat: 61
+
+body:
+  weight: 84.9
+  waist: 94
+  sleep: 7.5
+  energy: 7
+
+meals:
+  - { name: "Oats + whey + banana", protein: "32g" }
+  - { name: "Brown chana sprouts", protein: "10g" }
+  - { name: "Chicken curry + rice", protein: "38g" }
+  - { name: "Green moong sprouts", protein: "8g" }
+  - { name: "Pre-workout shake + dates", protein: "24g" }
+  - { name: "Paneer tikka tawa + veg", protein: "18g" }
+---
+
+First Upper A session of the week. Shoulder press feels like 30kg is the current ceiling — need to work up to 6 clean reps before adding weight. Incline bench reps too low, dropping to 35kg next session and building volume properly.
+
+Face pulls at 35kg for 7 reps — rear delts responding well.
+
+Overall energy was good despite sleeping at 2AM. Morning walk done before session.

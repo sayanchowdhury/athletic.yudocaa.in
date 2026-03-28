@@ -1,0 +1,41 @@
+title: "Lemon Herb Chicken"
+slug: "lemon-herb-chicken"
+category: "dinner"
+protein_source: "chicken"
+prep_time: 5
+cook_time: 25
+total_time: 30
+servings: 1
+calories: 310
+macros:
+  protein: 30
+  carbs: 3
+  fat: 10
+tags: ["chicken", "dinner", "meal-prep", "light"]
+meal_prep: true
+description: "Bright, clean lemon and garlic chicken. Completely different profile from the masala version."
+ingredients:
+  - item: "Chicken breast"
+    amount: "150g"
+  - item: "Lemon juice"
+    amount: "2 tbsp"
+  - item: "Garlic (minced)"
+    amount: "3 cloves"
+  - item: "Dried oregano"
+    amount: "½ tsp"
+  - item: "Black pepper"
+    amount: "½ tsp"
+  - item: "Salt"
+    amount: "to taste"
+  - item: "Oil"
+    amount: "1 tsp"
+  - item: "Mixed vegetables"
+    amount: "100g"
+steps:
+  - "Mix lemon juice, garlic, oregano, pepper and salt"
+  - "Coat chicken and marinate 10 min minimum"
+  - "Grill or pan cook on medium-high 12 min each side"
+  - "Let rest 2 min before cutting"
+  - "Serve with steamed vegetables"
+reheat: "Microwave 90 sec covered. Squeeze fresh lemon before eating."
+notes: "Tastes best the next day. The lemon deepens overnight."

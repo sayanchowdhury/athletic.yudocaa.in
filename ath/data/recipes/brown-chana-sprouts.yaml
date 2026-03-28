@@ -1,0 +1,42 @@
+title: "Brown Chana Sprouts Bowl"
+slug: "brown-chana-sprouts"
+category: "snack"
+protein_source: "chana"
+prep_time: 2
+cook_time: 0
+total_time: 2
+servings: 1
+calories: 150
+macros:
+  protein: 10
+  carbs: 22
+  fat: 3
+tags: ["snack", "sprouts", "no-cook", "high-protein", "vegan"]
+meal_prep: false
+description: "Brown chana sprouted overnight. Best mid-morning or evening snack — zero cooking, high protein, filling."
+ingredients:
+  - item: "Brown chana (sprouted)"
+    amount: "80g"
+  - item: "Lemon juice"
+    amount: "1 tsp"
+  - item: "Chaat masala"
+    amount: "¼ tsp"
+  - item: "Black salt"
+    amount: "pinch"
+  - item: "Cucumber (diced, optional)"
+    amount: "30g"
+  - item: "Tomato (diced, optional)"
+    amount: "30g"
+  - item: "Green chilli (minced, optional)"
+    amount: "½"
+  - item: "Fresh coriander"
+    amount: "few leaves"
+steps:
+  - "Soak brown chana 8 hrs in water. Drain and tie in a damp cloth 12–16 hrs until sprouted"
+  - "Rinse sprouts under cold water"
+  - "Toss with lemon, chaat masala and black salt"
+  - "Add cucumber, tomato and chilli if using"
+  - "Top with coriander and eat immediately"
+reheat: "No cooking needed. Sprouts can be refrigerated 2 days after sprouting."
+notes: "Sprout a large batch Sunday. Refrigerate and use through the week. Add lemon and spices fresh each time."
+how_to_sprout: "Soak 100g dry chana overnight (8 hrs). Drain. Wrap in damp muslin cloth. Keep in warm place 12–16 hrs. Rinse and use."

@@ -1,0 +1,45 @@
+title: "Dry Masala Chicken"
+slug: "chicken-masala-dinner"
+category: "dinner"
+protein_source: "chicken"
+prep_time: 5
+cook_time: 25
+total_time: 30
+servings: 1
+calories: 340
+macros:
+  protein: 30
+  carbs: 6
+  fat: 12
+tags: ["chicken", "dinner", "meal-prep", "high-protein"]
+meal_prep: true
+description: "Curd-marinated dry masala chicken. Works as a meal prep block for Mon–Wed."
+ingredients:
+  - item: "Chicken breast"
+    amount: "150g"
+  - item: "Thick curd"
+    amount: "2 tbsp"
+  - item: "Turmeric"
+    amount: "¼ tsp"
+  - item: "Red chilli powder"
+    amount: "½ tsp"
+  - item: "Coriander powder"
+    amount: "½ tsp"
+  - item: "Garam masala"
+    amount: "¼ tsp"
+  - item: "Ginger garlic paste"
+    amount: "1 tsp"
+  - item: "Salt"
+    amount: "to taste"
+  - item: "Oil or ghee"
+    amount: "1 tsp"
+  - item: "Mixed vegetables (blanched)"
+    amount: "100g"
+steps:
+  - "Mix curd with all spices and ginger garlic paste into a marinade"
+  - "Coat chicken thoroughly and rest 10 min (or overnight in fridge)"
+  - "Heat oil in pan on medium-high"
+  - "Cook chicken 12 min per side until cooked through with charred edges"
+  - "Serve with blanched vegetables"
+reheat: "Microwave 90 sec covered or pan on low heat 3 min with a splash of water"
+notes: "For meal prep: cook 450g chicken breast, divide into 3 portions. Stores 3 days refrigerated."

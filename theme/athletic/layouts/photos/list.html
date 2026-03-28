@@ -1,0 +1,46 @@
+{{ define "main" }}
+{{ $photos := .Site.Data.photos }}
+
+<div class="page-header">
+  <div class="page-header-inner">
+    <div class="hero-eyebrow">// progress photos</div>
+    <h1>Visual<br><span style="color:var(--acid)">Record</span></h1>
+    <p style="margin-top:12px;max-width:480px">Monthly check-ins. The mirror tells a different story than the scale.</p>
+  </div>
+</div>
+
+<div class="container" style="padding-bottom:80px">
+  {{ range $photos }}
+  <div style="margin-bottom:48px">
+    <div class="sec-label">{{ .month }} {{ .year }}</div>
+    <div style="margin-bottom:12px">
+      <span style="font-family:var(--font-mono);font-size:11px;color:var(--grey-5)">
+        {{ with .weight }}{{ . }}kg{{ end }}
+        {{ with .waist }} · waist {{ . }}cm{{ end }}
+        {{ with .body_fat }} · ~{{ . }}% body fat{{ end }}
+      </span>
+    </div>
+    <div class="photo-grid">
+      {{ range .images }}
+      <div class="photo-item">
+        {{ if .url }}
+        <img src="{{ .url }}" alt="{{ .caption | default "Progress photo" }}" loading="lazy">
+        {{ else }}
+        <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--grey-4);font-family:var(--font-mono);font-size:11px;text-align:center;padding:20px">{{ .caption | default "Photo" }}</div>
+        {{ end }}
+        <div class="photo-overlay">
+          <span class="photo-date">{{ .caption | default "" }}</span>
+        </div>
+      </div>
+      {{ end }}
+    </div>
+    {{ with .notes }}
+    <div class="callout" style="margin-top:16px">
+      <p>{{ . }}</p>
+    </div>
+    {{ end }}
+  </div>
+  {{ end }}
+</div>
+
+{{ end }}
