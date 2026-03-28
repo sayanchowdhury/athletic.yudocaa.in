@@ -1,0 +1,163 @@
+# Weekly Mobility Routine
+# Hips + hip flexors daily anchor (20 min). Everything else paired to strength session.
+# No single morning session exceeds ~57 min.
+
+rule: "No deep static stretching in the evening warm-up. All static holds belong in the morning session."
+
+regions:
+  hips:
+    name: "Hip mobility"
+    duration: "10 min"
+    exercises:
+      - { name: "Hip circles (standing)", reps: "10 each way", muscles: "Hip joint capsule, glute med", note: "Large range — hands on hips" }
+      - { name: "90/90 hip switch", reps: "5–8 each side", muscles: "Internal + external rotators", note: "Slow transitions between positions" }
+      - { name: "Deep squat hold", reps: "3 × 20–30 sec", muscles: "Hip flexors, adductors, glutes", note: "Heels down; elbows push knees out; upright torso" }
+      - { name: "Cossack squats", reps: "8 each side", muscles: "Adductors, glute med, VMO", note: "Weight onto bent leg heel; upright torso" }
+      - { name: "Fire hydrants", reps: "12 each side", muscles: "Glute medius, external rotators", note: "All fours; control the movement throughout" }
+      - { name: "Hip CARs", reps: "5 each leg", muscles: "Full hip joint capsule", note: "Slow full circle under muscular control — gold standard" }
+
+  hip_flexors:
+    name: "Hip flexor mobility"
+    duration: "10 min"
+    exercises:
+      - { name: "Kneeling lunge stretch", reps: "45–60 sec each", muscles: "Iliopsoas, rectus femoris", note: "Back knee down; drive hips forward; tall torso" }
+      - { name: "Couch stretch", reps: "45–60 sec each", muscles: "Rectus femoris, iliopsoas", note: "Back foot elevated on wall — deepest stretch" }
+      - { name: "Psoas march (lying)", reps: "10 each side", muscles: "Deep psoas, iliacus", note: "Slow alternating knee drive; lower back stays flat" }
+      - { name: "Pigeon pose", reps: "45 sec each", muscles: "Piriformis, external rotators, hip flexor", note: "Deep external rotator + hip flexor release" }
+      - { name: "Hip flexor pulse stretch", reps: "15 each side", muscles: "Rectus femoris", note: "Small pulses in lunge position; do not end on static hold" }
+
+  shoulders:
+    name: "Shoulders + rotator cuff"
+    duration: "5 min"
+    exercises:
+      - { name: "Shoulder CARs", reps: "5 each arm", muscles: "Full shoulder complex, rotator cuff", note: "Slowest full controlled circle possible" }
+      - { name: "Wall slides", reps: "2 × 10", muscles: "Lower traps, serratus anterior, rotator cuff", note: "Arms against wall; maintain contact" }
+      - { name: "Band pull-aparts", reps: "2 × 15", muscles: "Rear deltoid, rhomboids, external rotators", note: "Light band; arms straight; pull to chest" }
+      - { name: "Sleeper stretch", reps: "30 sec each", muscles: "Posterior shoulder capsule", note: "Lie on side; rotate into internal rotation; gentle" }
+      - { name: "Cross-body shoulder stretch", reps: "30 sec each", muscles: "Posterior capsule, rear deltoid", note: "Pull arm across chest; hold at elbow not wrist" }
+
+  thoracic:
+    name: "Thoracic spine"
+    duration: "4 min"
+    exercises:
+      - { name: "Foam roller extensions", reps: "60 sec total", muscles: "Thoracic extensors, costovertebral joints", note: "Roll across upper back segment by segment" }
+      - { name: "Thoracic rotations", reps: "10 each side", muscles: "Thoracic rotators, obliques", note: "Seated cross-legged; hands behind head" }
+      - { name: "Thread the needle", reps: "8 each side", muscles: "Thoracic rotators, rhomboids", note: "All fours; thread arm under body" }
+      - { name: "Cat-cow", reps: "10 slow reps", muscles: "Full spine — lumbar into thoracic", note: "Slow full range; exhale on cat; inhale on cow" }
+      - { name: "Open books", reps: "10 each side", muscles: "Thoracic rotators, pecs", note: "Lie on side; knees stacked; rotate top arm open" }
+
+  neck:
+    name: "Neck + cervical spine"
+    duration: "3 min"
+    exercises:
+      - { name: "Chin tucks", reps: "10 reps, 2 sec hold", muscles: "Deep neck flexors", note: "Draw chin straight back — not down" }
+      - { name: "Neck half-circles", reps: "8 each way", muscles: "SCM, scalenes, upper traps", note: "Front half only — avoid full backward roll" }
+      - { name: "Lateral neck stretch", reps: "30 sec each", muscles: "Scalenes, upper trapezius, levator scapulae", note: "Ear to shoulder; opposite hand gentle pressure" }
+      - { name: "Neck rotations", reps: "10 each side", muscles: "Sternocleidomastoid, cervical rotators", note: "Slow chin-to-shoulder turns — no jerking" }
+
+  wrists:
+    name: "Wrists + forearms"
+    duration: "2 min"
+    exercises:
+      - { name: "Wrist circles", reps: "10 each way", muscles: "Wrist flexors, extensors", note: "Slow controlled circles both directions" }
+      - { name: "Prayer stretch", reps: "20 sec", muscles: "Wrist flexors, finger flexors", note: "Palms together; push hands together" }
+      - { name: "Reverse prayer stretch", reps: "20 sec", muscles: "Wrist extensors", note: "Back of hands together; push downward" }
+      - { name: "Wrist flexor stretch", reps: "20 sec each", muscles: "Flexor carpi radialis and ulnaris", note: "Arm out, palm up, pull fingers back" }
+      - { name: "Wrist extensor stretch", reps: "20 sec each", muscles: "Extensor carpi group", note: "Arm out, palm down, pull fingers down" }
+
+  lumbar:
+    name: "Lumbar spine + lower back"
+    duration: "3 min"
+    exercises:
+      - { name: "Knee-to-chest pulls", reps: "30 sec each + both", muscles: "Lumbar paraspinals, glutes", note: "Lying flat; single then double knee pull" }
+      - { name: "Supine spinal twist", reps: "30 sec each", muscles: "Lumbar rotators, piriformis, TFL", note: "Lying; drop bent knee across body; arms wide" }
+      - { name: "Child's pose", reps: "45 sec", muscles: "Lumbar extensors, lats", note: "Sit back on heels; arms extended — decompress" }
+      - { name: "Dead bug", reps: "2 × 8 each", muscles: "Deep core, lumbar stabilisers", note: "Extend opposite arm and leg; lower back pressed to floor" }
+
+  knees:
+    name: "Knees"
+    duration: "2 min"
+    exercises:
+      - { name: "Knee circles", reps: "10 each way", muscles: "Patellofemoral joint, collateral ligaments", note: "Hands on knees; small controlled circles" }
+      - { name: "Quad stretch (standing)", reps: "30 sec each", muscles: "Rectus femoris, vastus intermedius", note: "Pull heel to glute; stand tall; hips forward" }
+      - { name: "Straight leg raises", reps: "2 × 10 each", muscles: "VMO, quad activation", note: "Lying; activate quad above kneecap; slow" }
+      - { name: "Terminal knee extensions", reps: "2 × 15 each", muscles: "VMO, distal quad", note: "Light band around knee; small extension" }
+
+  ankles:
+    name: "Ankles + calves"
+    duration: "3 min"
+    exercises:
+      - { name: "Ankle circles", reps: "10 each way", muscles: "Ankle mortise joint, peroneal muscles", note: "Slow controlled; both directions each foot" }
+      - { name: "Slow calf raises", reps: "2 × 10", muscles: "Gastrocnemius, Achilles, soleus", note: "2 sec up, 3 sec down — full range" }
+      - { name: "Ankle dorsiflexion wall stretch", reps: "30 sec each", muscles: "Gastrocnemius, soleus", note: "Knee over toes against wall — key for squat depth" }
+      - { name: "Banded ankle mobilisation", reps: "15 each", muscles: "Anterior ankle capsule, talar joint", note: "Band around ankle; rock knee forward over toes" }
+      - { name: "Soleus stretch", reps: "30 sec each", muscles: "Soleus, deep posterior compartment", note: "Calf stretch with knee slightly bent" }
+
+evening_warmup:
+  name: "Evening warm-up"
+  duration: "~10 min"
+  note: "Dynamic only — no static holds"
+  exercises:
+    - { name: "Skipping (easy pace)", reps: "3–4 min", muscles: "Full body temperature, calves, ankles", note: "Basic two-foot bounce; comfortable rhythm" }
+    - { name: "Leg swings — forward/back", reps: "10 each leg", muscles: "Hip flexors, hamstrings", note: "Hold wall; do not force range" }
+    - { name: "Leg swings — side to side", reps: "10 each leg", muscles: "Adductors, abductors", note: "Controlled arc — don't kick hard" }
+    - { name: "Glute bridges", reps: "2 × 12", muscles: "Glutes, hamstrings", note: "Pause 1 sec at top; push knees apart" }
+    - { name: "Bodyweight squats", reps: "2 × 10", muscles: "Full lower body", note: "Slow; feel depth; no weight yet" }
+    - { name: "Barbell ramp-up sets", reps: "3 sets", muscles: "Nervous system, motor pattern priming", note: "Empty bar ×10 / 50% ×5 / 70–80% ×3 then working sets" }
+
+schedule:
+  mon:
+    label: "Monday"
+    session: "Strength — Upper A (push)"
+    morning_duration: "~39 min"
+    regions: ["hips", "hip_flexors", "shoulders", "thoracic", "wrists"]
+    has_strength: true
+    has_warmup: true
+
+  tue:
+    label: "Tuesday"
+    session: "Strength — Lower A (quads)"
+    morning_duration: "~38 min"
+    regions: ["hips", "hip_flexors", "lumbar", "knees", "ankles"]
+    has_strength: true
+    has_warmup: true
+
+  wed:
+    label: "Wednesday"
+    session: "Cardio — HIIT"
+    morning_duration: "~39 min"
+    regions: ["hips", "hip_flexors", "neck", "shoulders", "thoracic", "wrists"]
+    has_strength: false
+    has_warmup: false
+
+  thu:
+    label: "Thursday"
+    session: "Strength — Upper B (pull)"
+    morning_duration: "~37 min"
+    regions: ["hips", "hip_flexors", "thoracic", "shoulders", "neck"]
+    has_strength: true
+    has_warmup: true
+
+  fri:
+    label: "Friday"
+    session: "Strength — Lower B (posterior)"
+    morning_duration: "~38 min"
+    regions: ["hips", "hip_flexors", "lumbar", "ankles", "knees"]
+    has_strength: true
+    has_warmup: true
+
+  sat:
+    label: "Saturday"
+    session: "Cardio — Zone 2"
+    morning_duration: "~57 min"
+    regions: ["hips", "hip_flexors", "neck", "shoulders", "thoracic", "wrists", "lumbar", "knees", "ankles"]
+    has_strength: false
+    has_warmup: false
+
+  sun:
+    label: "Sunday"
+    session: "Rest"
+    morning_duration: "~20 min"
+    regions: ["hips", "hip_flexors"]
+    has_strength: false
+    has_warmup: false

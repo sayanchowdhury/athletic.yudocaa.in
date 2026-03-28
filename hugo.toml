@@ -1,0 +1,29 @@
+baseURL = "http://athletic.yudocaa.in/"
+languageCode = "en-in"
+title = "athletic-log"
+theme = "athletic"
+themesDir = "theme"
+contentDir = "ath/content"
+dataDir = "ath/data"
+staticDir = "ath/static"
+
+[params]
+  description = "Sayan's fitness tracking site — workouts, recipes, body stats, daily log"
+  athlete = "Sayan Chowdhury"
+  startDate = "2025"
+  brandPrefix = "ATH"
+  brandSuffix = "LOG"
+  googleFonts = true
+  heroEyebrow = "// training log active"
+  heroLine1 = "Built"
+  heroLine2 = "different."
+  heroSub = "Tracking every rep, every meal, every day. Body recomposition in progress."
+
+[permalinks]
+  "log/2021" = "/log/2021/:slug/"
+  "log/2025" = "/log/2025/:slug/"
+  fitness = "/fitness/:year/:slug/"
+
+[taxonomies]
+  tag = "tags"
+  category = "categories"

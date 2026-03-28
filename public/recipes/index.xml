@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Recipes on athletic-log</title>
+    <link>http://localhost:1313/recipes/</link>
+    <description>Recent content in Recipes on athletic-log</description>
+    <generator>Hugo</generator>
+    <language>en-in</language>
+    <atom:link href="http://localhost:1313/recipes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>brown-chana-sprouts</title>
+      <link>http://localhost:1313/recipes/brown-chana-sprouts/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/recipes/brown-chana-sprouts/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>chicken-jeera-rice</title>
+      <link>http://localhost:1313/recipes/chicken-jeera-rice/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/recipes/chicken-jeera-rice/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>chicken-masala-dinner</title>
+      <link>http://localhost:1313/recipes/chicken-masala-dinner/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/recipes/chicken-masala-dinner/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>green-moong-sprouts</title>
+      <link>http://localhost:1313/recipes/green-moong-sprouts/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/recipes/green-moong-sprouts/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>lemon-herb-chicken</title>
+      <link>http://localhost:1313/recipes/lemon-herb-chicken/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/recipes/lemon-herb-chicken/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>paneer-kali-mirch</title>
+      <link>http://localhost:1313/recipes/paneer-kali-mirch/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/recipes/paneer-kali-mirch/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>paneer-tikka-tawa</title>
+      <link>http://localhost:1313/recipes/paneer-tikka-tawa/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/recipes/paneer-tikka-tawa/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

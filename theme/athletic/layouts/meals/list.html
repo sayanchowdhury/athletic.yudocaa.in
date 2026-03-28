@@ -1,0 +1,150 @@
+{{ define "main" }}
+
+<div class="page-header">
+  <div class="page-header-inner">
+    <div class="hero-eyebrow">// nutrition system</div>
+    <h1>Meal<br><span style="color:var(--acid)">Plan</span></h1>
+    <p style="margin-top:12px;max-width:480px">2,400 kcal training · 2,000 kcal rest · 85g protein daily · Bengaluru-based</p>
+  </div>
+</div>
+
+<div class="container" style="padding-bottom:80px">
+
+  <!-- Day toggle -->
+  <div class="filter-bar" style="margin-bottom:32px">
+    <button class="filter-btn active" onclick="showMealDay('train',this)">Training day</button>
+    <button class="filter-btn" onclick="showMealDay('rest',this)">Rest day</button>
+  </div>
+
+  <!-- Training day -->
+  <div id="meal-train">
+    <div class="sec-label">Targets — training day</div>
+    <div class="stat-grid" style="margin-bottom:32px">
+      <div class="stat-block"><div class="stat-val acid">2,400</div><div class="stat-lbl">kcal</div></div>
+      <div class="stat-block"><div class="stat-val">85<span style="font-size:18px">g</span></div><div class="stat-lbl">Protein</div></div>
+      <div class="stat-block"><div class="stat-val">~220<span style="font-size:18px">g</span></div><div class="stat-lbl">Carbs</div></div>
+      <div class="stat-block"><div class="stat-val">~65<span style="font-size:18px">g</span></div><div class="stat-lbl">Fat</div></div>
+    </div>
+
+    <div class="sec-label">Meals</div>
+    {{ $meals := slice
+      (dict "time" "7:00 AM" "name" "Breakfast" "kcal" "~620" "protein" "32g" "locked" true "icon" "🥣" "items" (slice
+        (dict "name" "Oats" "amount" "50g" "macro" "30g C")
+        (dict "name" "Full fat milk" "amount" "250ml" "macro" "8g P")
+        (dict "name" "Whey protein" "amount" "1 scoop" "macro" "24g P")
+        (dict "name" "Bananas (small)" "amount" "2 nos" "macro" "20g C")
+        (dict "name" "Chia seeds (soaked)" "amount" "2 tsp" "macro" "3g F")
+        (dict "name" "Berries" "amount" "6–7" "macro" "5g C")
+      ))
+      (dict "time" "10:30 AM" "name" "Mid-morning snack" "kcal" "~150" "protein" "10g" "locked" false "icon" "🌱" "items" (slice
+        (dict "name" "Brown chana sprouts" "amount" "80g" "macro" "10g P")
+        (dict "name" "Lemon + chaat masala + black salt" "amount" "to taste" "macro" "—")
+        (dict "name" "Cucumber + tomato (opt)" "amount" "30g each" "macro" "3g C")
+      ))
+      (dict "time" "1:00 PM" "name" "Lunch" "kcal" "~520" "protein" "~40g" "locked" false "icon" "🍚" "items" (slice
+        (dict "name" "Chicken / fish / paneer (rotate)" "amount" "150–200g" "macro" "35–40g P")
+        (dict "name" "Sona Masuri rice (cooked)" "amount" "150g (50g raw)" "macro" "44g C")
+        (dict "name" "Buttermilk (chaas)" "amount" "25g curd + 150ml water" "macro" "2g P")
+      ))
+      (dict "time" "4:00 PM" "name" "Evening snack" "kcal" "~110" "protein" "8g" "locked" false "icon" "🥗" "items" (slice
+        (dict "name" "Green moong sprouts" "amount" "70g" "macro" "8g P")
+        (dict "name" "Lemon + roasted cumin + black salt" "amount" "to taste" "macro" "—")
+      ))
+      (dict "time" "4:30 PM" "name" "Pre-workout" "kcal" "~200" "protein" "24g" "locked" true "icon" "⚡" "items" (slice
+        (dict "name" "Whey shake (in water)" "amount" "1 scoop" "macro" "24g P")
+        (dict "name" "Dates" "amount" "2 nos" "macro" "14g C")
+      ))
+      (dict "time" "7:30–8 PM" "name" "Dinner" "kcal" "~340" "protein" "~28g" "locked" false "icon" "🍽️" "items" (slice
+        (dict "name" "Chicken Mon–Wed / Paneer Thu–Sat" "amount" "120g / 100g" "macro" "18–29g P")
+        (dict "name" "Steamed / stir-fried vegetables" "amount" "generous" "macro" "8g C")
+        (dict "name" "Ghee" "amount" "½ tsp" "macro" "4g F")
+      ))
+    }}
+
+    {{ range $meals }}
+    <div class="card" style="margin-bottom:10px">
+      <div style="display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid var(--grey-3)">
+        <span style="font-size:22px">{{ .icon }}</span>
+        <div style="flex:1">
+          <div style="font-family:var(--font-display);font-size:18px;font-weight:800;text-transform:uppercase;color:var(--white)">{{ .name }}</div>
+          <div style="font-family:var(--font-mono);font-size:10px;color:var(--grey-5);text-transform:uppercase;letter-spacing:.08em;margin-top:2px">{{ .time }}</div>
+        </div>
+        <span style="font-family:var(--font-mono);font-size:12px;color:var(--grey-5)">{{ .kcal }} kcal</span>
+        <span class="pill pill-teal">{{ .protein }}</span>
+        {{ if .locked }}<span class="pill pill-acid">locked</span>{{ end }}
+      </div>
+      <div style="padding:0 18px">
+        {{ range .items }}
+        <div style="display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--grey-3);font-size:15px">
+          <span style="color:var(--white);opacity:0.82;font-weight:500">{{ .name }}</span>
+          <div style="display:flex;gap:10px;align-items:center">
+            <span style="font-family:var(--font-mono);font-size:13px;color:var(--grey-6)">{{ .amount }}</span>
+            <span style="font-family:var(--font-mono);font-size:13px;color:var(--teal)">{{ .macro }}</span>
+          </div>
+        </div>
+        {{ end }}
+      </div>
+    </div>
+    {{ end }}
+  </div>
+
+  <!-- Rest day -->
+  <div id="meal-rest" style="display:none">
+    <div class="sec-label">Targets — rest day</div>
+    <div class="stat-grid" style="margin-bottom:32px">
+      <div class="stat-block"><div class="stat-val">2,000</div><div class="stat-lbl">kcal</div></div>
+      <div class="stat-block"><div class="stat-val">85<span style="font-size:18px">g</span></div><div class="stat-lbl">Protein</div></div>
+      <div class="stat-block"><div class="stat-val">~175<span style="font-size:18px">g</span></div><div class="stat-lbl">Carbs (lower)</div></div>
+      <div class="stat-block"><div class="stat-val">~60<span style="font-size:18px">g</span></div><div class="stat-lbl">Fat</div></div>
+    </div>
+    <div class="callout">
+      <p><strong>Rest day rule:</strong> Protein stays at 85g — always. Only carbs drop. Skip pre-workout shake. Reduce rice slightly. Sprouts at both snack slots.</p>
+    </div>
+  </div>
+
+  <!-- Dinner rotation -->
+  <div style="margin-top:40px">
+    <div class="sec-label">Dinner rotation</div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-accent-top"></div>
+        <div class="card-body">
+          <div class="card-title" style="color:var(--amber)">Block 1 — Chicken</div>
+          <div class="card-meta">Prep Sunday · Mon Tue Wed</div>
+          <div style="margin-top:12px;font-size:15px;color:var(--white);opacity:0.75">450g raw chicken → 3 portions · 500g blanched vegetables</div>
+          <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap">
+            <span class="pill pill-ghost">Masala</span>
+            <span class="pill pill-ghost">Lemon herb</span>
+            <span class="pill pill-ghost">Curd marinated</span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title" style="color:var(--teal)">Block 2 — Paneer</div>
+          <div class="card-meta">Prep Wednesday · Thu Fri Sat</div>
+          <div style="margin-top:12px;font-size:15px;color:var(--white);opacity:0.75">300g paneer → 3 portions · 500g blanched vegetables</div>
+          <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap">
+            <span class="pill pill-ghost">Bhurji</span>
+            <span class="pill pill-ghost">Tikka tawa</span>
+            <span class="pill pill-ghost">Kali mirch</span>
+            <span class="pill pill-ghost">Crispy garlic</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{{ end }}
+
+{{ define "scripts" }}
+<script>
+function showMealDay(day, btn) {
+  document.getElementById('meal-train').style.display = day === 'train' ? 'block' : 'none';
+  document.getElementById('meal-rest').style.display = day === 'rest' ? 'block' : 'none';
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+</script>
+{{ end }}

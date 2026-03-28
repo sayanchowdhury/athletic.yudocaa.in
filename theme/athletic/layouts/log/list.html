@@ -1,0 +1,59 @@
+{{ define "main" }}
+
+<div class="page-header">
+  <div class="page-header-inner">
+    <div class="hero-eyebrow">// daily log</div>
+    <h1>Training<br><span style="color:var(--acid)">Journal</span></h1>
+    <p style="margin-top:16px;max-width:480px">Every session. Every day. Raw and unfiltered.</p>
+  </div>
+</div>
+
+<div class="container" style="padding-bottom:80px">
+
+  {{ if .Sections }}
+  {{/* Top-level /log/ — show year cards */}}
+  <div class="grid-3" style="margin-top:40px">
+    {{ range .Sections.ByDate.Reverse }}
+    {{ $href := .Permalink }}
+    {{ $journal := .GetPage "journal" }}
+    {{ with $journal }}{{ $href = .Permalink }}{{ end }}
+    <a href="{{ $href }}" class="card" style="cursor:pointer;text-decoration:none">
+      <div class="card-accent-top"></div>
+      <div class="card-body" style="padding:32px 24px;text-align:center">
+        <div style="font-family:var(--font-display);font-size:72px;font-weight:900;color:var(--white);line-height:1">{{ .Title }}</div>
+        <div style="font-family:var(--font-mono);font-size:12px;color:var(--grey-5);margin-top:12px;text-transform:uppercase;letter-spacing:.1em">{{ len .Pages }} {{ if eq (len .Pages) 1 }}entry{{ else }}entries{{ end }}</div>
+        <div style="font-family:var(--font-mono);font-size:13px;color:var(--acid);margin-top:16px;letter-spacing:.05em">[ open → ]</div>
+      </div>
+    </a>
+    {{ end }}
+  </div>
+
+  {{ else }}
+  {{/* Year subsection /log/2021/ — show entries for that year */}}
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;margin-top:40px">
+    <div style="font-family:var(--font-display);font-size:48px;font-weight:900;color:var(--white);line-height:1">{{ .Title }}</div>
+    <a href="{{ .Parent.Permalink }}" class="btn btn-ghost">← All years</a>
+  </div>
+
+  <div class="log-entries">
+    {{ range .Pages.ByDate.Reverse }}
+    <div class="log-entry{{ if and (not .Date.IsZero) (eq (.Date.Format "2006-01-02") (now.Format "2006-01-02")) }} today{{ end }}">
+      <div class="log-date">{{ .Date.Format "Mon, 02 Jan" }}</div>
+      <a href="{{ .Permalink }}" style="text-decoration:none">
+        <div class="log-title">{{ .Title }}</div>
+      </a>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">
+        {{ with .Params.type }}<span class="pill {{ if eq . "strength" }}pill-acid{{ else if eq . "cardio" }}pill-red{{ else if eq . "rest" }}pill-ghost{{ else }}pill-teal{{ end }}">{{ . }}</span>{{ end }}
+        {{ with .Params.duration }}<span style="font-family:var(--font-mono);font-size:11px;color:var(--grey-5)">{{ . }} min</span>{{ end }}
+        {{ with .Params.weight }}<span style="font-family:var(--font-mono);font-size:11px;color:var(--grey-5)">{{ . }}kg</span>{{ end }}
+        {{ with .Params.cw }}<span style="font-family:var(--font-mono);font-size:11px;color:var(--grey-5)">{{ . }}kg</span>{{ end }}
+        {{ with .Params.hevy_url }}<a href="{{ . }}" target="_blank" style="font-family:var(--font-mono);font-size:11px;color:var(--acid)">hevy ↗</a>{{ end }}
+      </div>
+      <div class="log-body">{{ .Summary }}</div>
+    </div>
+    {{ end }}
+  </div>
+  {{ end }}
+
+</div>
+{{ end }}

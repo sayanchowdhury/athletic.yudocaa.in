@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>chicken-masala-dinner · ATH·LOG</title>
+  <meta name="description" content="Sayan&#39;s fitness tracking site — workouts, recipes, body stats, daily log">
+  <link rel="stylesheet" href="/css/athletic.css">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  
+  <script>
+    (function(){var t=localStorage.getItem('theme');if(t){document.documentElement.setAttribute('data-theme',t)}})();
+  </script>
+</head>
+<body>
+
+
+<div id="lock-screen" style="display:none;position:fixed;inset:0;z-index:9999;background:var(--black);display:flex;align-items:center;justify-content:center">
+  <div style="text-align:center;max-width:360px;padding:24px">
+    <div style="font-family:var(--font-display);font-size:28px;font-weight:900;text-transform:uppercase;color:var(--acid);margin-bottom:8px">ATH<span style="color:var(--white)">&middot;</span>LOG</div>
+    <p style="font-size:13px;color:var(--grey-5);margin-bottom:32px">Enter password to continue</p>
+    <input id="lock-input" type="password" placeholder="Password" autofocus
+      style="width:100%;padding:12px 16px;font-family:var(--font-mono);font-size:14px;background:var(--grey-1);border:1px solid var(--grey-3);border-radius:var(--radius);color:var(--white);outline:none;margin-bottom:12px">
+    <div id="lock-error" style="font-family:var(--font-mono);font-size:11px;color:var(--red);margin-bottom:12px;visibility:hidden">Wrong password</div>
+    <button id="lock-btn" style="width:100%;padding:12px;font-family:var(--font-display);font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;background:var(--acid);color:var(--black);border:none;border-radius:var(--radius);cursor:pointer">Unlock</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  var HASH='4fe019f43d4821df4068ddc96e62e366b45283f1e2c7ea592ac9db5ac1155ca1';
+  var lock=document.getElementById('lock-screen');
+  if(localStorage.getItem('ath-unlocked')===HASH){lock.style.display='none';return}
+  lock.style.display='flex';
+  document.getElementById('lock-btn').addEventListener('click',tryUnlock);
+  document.getElementById('lock-input').addEventListener('keydown',function(e){if(e.key==='Enter')tryUnlock()});
+  async function tryUnlock(){
+    var pw=document.getElementById('lock-input').value;
+    var buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(pw));
+    var hash=Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,'0')}).join('');
+    if(hash===HASH){localStorage.setItem('ath-unlocked',HASH);lock.style.display='none'}
+    else{document.getElementById('lock-error').style.visibility='visible';document.getElementById('lock-input').value=''}
+  }
+})();
+</script>
+
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="/" class="nav-brand">
+      ATH<span>·</span>LOG
+    </a>
+    <div class="nav-links" id="nav-links">
+      <a href="/" class="nav-link">Home</a>
+      <a href="/log/" class="nav-link">Daily Log</a>
+      <a href="/fitness/" class="nav-link">Fitness</a>
+      <a href="/recipes/" class="nav-link active">Recipes</a>
+      <a href="/meals/" class="nav-link">Meal Plan</a>
+      <a href="/plan/" class="nav-link">Plan</a>
+      <a href="/stats/" class="nav-link">Stats</a>
+      <a href="/photos/" class="nav-link">Photos</a>
+    </div>
+    <span class="nav-meta" id="nav-clock"></span>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">☀</button>
+    <button class="nav-toggle" onclick="document.getElementById('nav-links').classList.toggle('open')">☰</button>
+  </div>
+</nav>
+
+
+<main>
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+<div class="page-header">
+  <div class="page-header-inner">
+    <a href="/recipes/" style="font-family:var(--font-mono);font-size:11px;color:var(--grey-5);text-transform:uppercase;letter-spacing:.1em;display:inline-block;margin-bottom:16px">← All recipes</a>
+    <div style="margin-bottom:10px">
+      <span class="pill pill-amber">dinner</span>
+      <span class="pill pill-ghost" style="margin-left:6px">📦 meal prep</span>
+    </div>
+    <h1>Dry Masala Chicken</h1>
+    <p style="margin-top:12px;max-width:560px">Curd-marinated dry masala chicken. Works as a meal prep block for Mon–Wed.</p>
+  </div>
+</div>
+
+<div class="container" style="padding-bottom:80px">
+
+  
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:28px">
+    <span style="font-family:var(--font-mono);font-size:11px;color:var(--grey-6);text-transform:uppercase;letter-spacing:.1em">Servings</span>
+    <div style="display:flex;align-items:center;gap:0;border:1px solid var(--grey-3);border-radius:var(--radius);overflow:hidden">
+      <button class="srv-btn active" onclick="setServing(1,this)" data-mult="1"
+        style="font-family:var(--font-display);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:6px 14px;border:none;cursor:pointer;transition:all .15s;background:var(--acid);color:var(--black)">
+        1 serving
+      </button>
+      <button class="srv-btn" onclick="setServing(3,this)" data-mult="3"
+        style="font-family:var(--font-display);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:6px 14px;border:none;cursor:pointer;transition:all .15s;background:transparent;color:var(--grey-6)">
+        3-day bulk
+      </button>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 320px;gap:40px;align-items:start">
+
+    
+    <div>
+
+      
+      <div class="stat-grid" style="margin-bottom:32px">
+        <div class="stat-block">
+          <div class="stat-val">5<span style="font-size:20px">m</span></div>
+          <div class="stat-lbl">Prep</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-val">25<span style="font-size:20px">m</span></div>
+          <div class="stat-lbl">Cook</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-val acid">30<span style="font-size:20px">m</span></div>
+          <div class="stat-lbl">Total</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-val" id="stat-cal">340</div>
+          <div class="stat-lbl">kcal <span id="stat-cal-label"></span></div>
+        </div>
+      </div>
+
+      
+      <div class="sec-label">Method</div>
+      <ol style="list-style:none;padding:0;counter-reset:steps">
+        
+        <li style="counter-increment:steps;display:flex;gap:20px;padding:16px 0;border-bottom:1px solid var(--grey-3);align-items:flex-start">
+          <span style="font-family:var(--font-display);font-size:28px;font-weight:900;color:var(--acid);min-width:32px;line-height:1.2">1</span>
+          <span style="font-size:16px;color:var(--white);opacity:0.82;line-height:1.7;padding-top:4px">Mix curd with all spices and ginger garlic paste into a marinade</span>
+        </li>
+        
+        <li style="counter-increment:steps;display:flex;gap:20px;padding:16px 0;border-bottom:1px solid var(--grey-3);align-items:flex-start">
+          <span style="font-family:var(--font-display);font-size:28px;font-weight:900;color:var(--acid);min-width:32px;line-height:1.2">2</span>
+          <span style="font-size:16px;color:var(--white);opacity:0.82;line-height:1.7;padding-top:4px">Coat chicken thoroughly and rest 10 min (or overnight in fridge)</span>
+        </li>
+        
+        <li style="counter-increment:steps;display:flex;gap:20px;padding:16px 0;border-bottom:1px solid var(--grey-3);align-items:flex-start">
+          <span style="font-family:var(--font-display);font-size:28px;font-weight:900;color:var(--acid);min-width:32px;line-height:1.2">3</span>
+          <span style="font-size:16px;color:var(--white);opacity:0.82;line-height:1.7;padding-top:4px">Heat oil in pan on medium-high</span>
+        </li>
+        
+        <li style="counter-increment:steps;display:flex;gap:20px;padding:16px 0;border-bottom:1px solid var(--grey-3);align-items:flex-start">
+          <span style="font-family:var(--font-display);font-size:28px;font-weight:900;color:var(--acid);min-width:32px;line-height:1.2">4</span>
+          <span style="font-size:16px;color:var(--white);opacity:0.82;line-height:1.7;padding-top:4px">Cook chicken 12 min per side until cooked through with charred edges</span>
+        </li>
+        
+        <li style="counter-increment:steps;display:flex;gap:20px;padding:16px 0;border-bottom:1px solid var(--grey-3);align-items:flex-start">
+          <span style="font-family:var(--font-display);font-size:28px;font-weight:900;color:var(--acid);min-width:32px;line-height:1.2">5</span>
+          <span style="font-size:16px;color:var(--white);opacity:0.82;line-height:1.7;padding-top:4px">Serve with blanched vegetables</span>
+        </li>
+        
+      </ol>
+
+      
+
+      
+      <div class="callout" style="margin-top:16px;border-left-color:var(--amber)">
+        <p><strong>♨️ Reheating:</strong> Microwave 90 sec covered or pan on low heat 3 min with a splash of water</p>
+      </div>
+      
+
+      
+      <div class="callout" style="margin-top:16px;border-left-color:var(--grey-5)">
+        <p><strong>Note:</strong> For meal prep: cook 450g chicken breast, divide into 3 portions. Stores 3 days refrigerated.</p>
+      </div>
+      
+
+      
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:24px">
+        
+        <span class="pill pill-ghost">#chicken</span>
+        
+        <span class="pill pill-ghost">#dinner</span>
+        
+        <span class="pill pill-ghost">#meal-prep</span>
+        
+        <span class="pill pill-ghost">#high-protein</span>
+        
+      </div>
+    </div>
+
+    
+    <div style="position:sticky;top:72px">
+
+      
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-accent-top"></div>
+        <div class="card-body">
+          <div class="sec-label" style="margin-bottom:16px">Macros <span id="macro-label" style="color:var(--grey-6);font-size:10px"></span></div>
+          <div class="macro-bar-wrap" style="height:8px;margin-bottom:16px">
+            <div class="macro-seg-p" style="flex:30"></div>
+            <div class="macro-seg-c" style="flex:6"></div>
+            <div class="macro-seg-f" style="flex:12"></div>
+          </div>
+          <div class="prog-row">
+            <span class="prog-lbl">Protein</span>
+            <div class="prog-track"><div class="prog-fill" id="bar-protein" style="width:75%;background:var(--teal)"></div></div>
+            <span class="prog-val" id="val-protein">30g</span>
+          </div>
+          <div class="prog-row">
+            <span class="prog-lbl">Carbs</span>
+            <div class="prog-track"><div class="prog-fill" id="bar-carbs" style="width:7%;background:var(--amber)"></div></div>
+            <span class="prog-val" id="val-carbs">6g</span>
+          </div>
+          <div class="prog-row">
+            <span class="prog-lbl">Fat</span>
+            <div class="prog-track"><div class="prog-fill" id="bar-fat" style="width:40%;background:var(--red)"></div></div>
+            <span class="prog-val" id="val-fat">12g</span>
+          </div>
+          <div style="border-top:1px solid var(--grey-3);margin-top:14px;padding-top:14px;display:flex;justify-content:space-between">
+            <span style="font-family:var(--font-mono);font-size:12px;color:var(--grey-6);text-transform:uppercase">Total</span>
+            <span style="font-family:var(--font-display);font-size:22px;font-weight:900;color:var(--acid)" id="total-cal">340 kcal</span>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="card">
+        <div class="card-body">
+          <div class="sec-label" style="margin-bottom:14px">Ingredients <span id="ing-label" style="color:var(--grey-6);font-family:var(--font-mono);font-size:10px">(1 serving)</span></div>
+          
+          <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--grey-3);font-size:15px" class="ing-row" data-base-amount="150g">
+            <span style="color:var(--white);font-weight:500">Chicken breast</span>
+            <span style="font-family:var(--font-mono);font-size:13px;color:var(--grey-6)" class="ing-amount">150g</span>
+          </div>
+          
+          <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--grey-3);font-size:15px" class="ing-row" data-base-amount="2 tbsp">
+            <span style="color:var(--white);font-weight:500">Thick curd</span>
+            <span style="font-family:var(--font-mono);font-size:13px;color:var(--grey-6)" class="ing-amount">2 tbsp</span>
+          </div>
+          
+          <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--grey-3);font-size:15px" class="ing-row" data-base-amount="¼ tsp">
+            <span style="color:var(--white);font-weight:500">Turmeric</span>
+            <span style="font-family:var(--font-mono);font-size:13px;color:var(--grey-6)" class="ing-amount">¼ tsp</span>
+          </div>
+          
+          <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--grey-3);font-size:15px" class="ing-row" data-base-amount="½ tsp">
+            <span style="color:var(--white);font-weight:500">Red chilli powder</span>
+            <span style="font-family:var(--font-mono);font-size:13px;color:var(--grey-6)" class="ing-amount">½ tsp</span>
+          </div>
+          
+          <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--grey-3);font-size:15px" class="ing-row" data-base-amount="½ tsp">
+            <span style="color:var(--white);font-weight:500">Coriander powder</span>
+            <span style="font-family:var(--font-mono);font-size:13px;color:var(--grey-6)" class="ing-amount">½ tsp</span>
+          </div>
+          
+          <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--grey-3);font-size:15px" class="ing-row" data-base-amount="¼ tsp">
+            <span style="color:var(--white);font-weight:500">Garam masala</span>
+            <span style="font-family:var(--font-mono);font-size:13px;color:var(--grey-6)" class="ing-amount">¼ tsp</span>
+          </div>
+          
+          <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--grey-3);font-size:15px" class="ing-row" data-base-amount="1 tsp">
+            <span style="color:var(--white);font-weight:500">Ginger garlic paste</span>
+            <span style="font-family:var(--font-mono);font-size:13px;color:var(--grey-6)" class="ing-amount">1 tsp</span>
+          </div>
+          
+          <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--grey-3);font-size:15px" class="ing-row" data-base-amount="to taste">
+            <span style="color:var(--white);font-weight:500">Salt</span>
+            <span style="font-family:var(--font-mono);font-size:13px;color:var(--grey-6)" class="ing-amount">to taste</span>
+          </div>
+          
+          <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--grey-3);font-size:15px" class="ing-row" data-base-amount="1 tsp">
+            <span style="color:var(--white);font-weight:500">Oil or ghee</span>
+            <span style="font-family:var(--font-mono);font-size:13px;color:var(--grey-6)" class="ing-amount">1 tsp</span>
+          </div>
+          
+          <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--grey-3);font-size:15px" class="ing-row" data-base-amount="100g">
+            <span style="color:var(--white);font-weight:500">Mixed vegetables (blanched)</span>
+            <span style="font-family:var(--font-mono);font-size:13px;color:var(--grey-6)" class="ing-amount">100g</span>
+          </div>
+          
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <span class="footer-brand">ATH·LOG</span>
+    <span class="footer-meta">
+      Sayan Chowdhury ·
+      Started 2025 ·
+      Built with Hugo
+    </span>
+  </div>
+</footer>
+
+
+<script src="/js/athletic.js"></script>
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+<script>
+var baseData = {
+  cal:  340 ,
+  protein:  30 ,
+  carbs:  6 ,
+  fat:  12 
+};
+
+function multiplyAmount(str, mult) {
+  if (mult === 1) return str;
+   
+  var m = str.match(/^([\d.\/]+)\s*(.*)/);
+  if (m) {
+    var num = m[1];
+    var rest = m[2];
+     
+    if (num.indexOf('/') !== -1) {
+      var parts = num.split('/');
+      num = parseFloat(parts[0]) / parseFloat(parts[1]);
+    } else {
+      num = parseFloat(num);
+    }
+    var result = num * mult;
+     
+    var display = result % 1 === 0 ? result.toString() : result.toFixed(1);
+    return display + (rest ? ' ' + rest : '');
+  }
+  return str;
+}
+
+function setServing(mult, btn) {
+  document.querySelectorAll('.srv-btn').forEach(function(b) {
+    if (parseInt(b.dataset.mult) === mult) {
+      b.style.background = 'var(--acid)'; b.style.color = 'var(--black)';
+    } else {
+      b.style.background = 'transparent'; b.style.color = 'var(--grey-6)';
+    }
+  });
+
+  var suffix = mult > 1 ? ' (×' + mult + ')' : '';
+
+   
+  document.getElementById('val-protein').textContent = (baseData.protein * mult) + 'g';
+  document.getElementById('val-carbs').textContent = (baseData.carbs * mult) + 'g';
+  document.getElementById('val-fat').textContent = (baseData.fat * mult) + 'g';
+  document.getElementById('total-cal').textContent = (baseData.cal * mult) + ' kcal';
+  document.getElementById('stat-cal').textContent = baseData.cal * mult;
+  document.getElementById('stat-cal-label').textContent = mult > 1 ? '(total)' : '';
+  document.getElementById('macro-label').textContent = mult > 1 ? '(per ' + mult + ' servings)' : '';
+  document.getElementById('ing-label').textContent = mult > 1 ? '(' + mult + ' servings — bulk)' : '(1 serving)';
+
+   
+  document.getElementById('bar-protein').style.width = Math.min((baseData.protein * mult * 100) / (40 * mult), 100) + '%';
+  document.getElementById('bar-carbs').style.width = Math.min((baseData.carbs * mult * 100) / (80 * mult), 100) + '%';
+  document.getElementById('bar-fat').style.width = Math.min((baseData.fat * mult * 100) / (30 * mult), 100) + '%';
+
+   
+  document.querySelectorAll('.ing-row').forEach(function(row) {
+    var base = row.dataset.baseAmount;
+    row.querySelector('.ing-amount').textContent = multiplyAmount(base, mult);
+  });
+}
+</script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,44 @@
+title: "Green Moong Sprouts Chaat"
+slug: "green-moong-sprouts"
+category: "snack"
+protein_source: "moong"
+prep_time: 2
+cook_time: 0
+total_time: 2
+servings: 1
+calories: 110
+macros:
+  protein: 8
+  carbs: 18
+  fat: 1
+tags: ["snack", "sprouts", "no-cook", "light", "vegan"]
+meal_prep: false
+description: "Green moong sprouted and dressed as a quick chaat. Lighter than chana — good evening snack before dinner."
+ingredients:
+  - item: "Green moong (sprouted)"
+    amount: "70g"
+  - item: "Lemon juice"
+    amount: "1 tsp"
+  - item: "Chaat masala"
+    amount: "¼ tsp"
+  - item: "Roasted cumin powder"
+    amount: "¼ tsp"
+  - item: "Black salt"
+    amount: "pinch"
+  - item: "Onion (finely diced)"
+    amount: "20g"
+  - item: "Tomato (finely diced)"
+    amount: "20g"
+  - item: "Fresh coriander"
+    amount: "few leaves"
+  - item: "Green chilli (optional)"
+    amount: "½"
+steps:
+  - "Soak green moong 6 hrs. Drain. Wrap in damp cloth 10–12 hrs until tails appear"
+  - "Rinse well under cold water"
+  - "Mix with lemon, chaat masala, cumin powder, black salt"
+  - "Add onion, tomato and chilli"
+  - "Top with coriander. Eat fresh"
+reheat: "No cooking. Can be lightly steamed 2 min if you prefer them warmer."
+notes: "Moong sprouts faster than chana — 10 hrs is usually enough. Shorter sprout tail = better texture, longer = softer."
+how_to_sprout: "Soak 80g dry moong 6 hrs. Drain. Wrap in damp cloth in warm place. 10–12 hrs gives short tails — ideal texture."

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>2025 on athletic-log</title>
+    <link>http://localhost:1313/log/2025/</link>
+    <description>Recent content in 2025 on athletic-log</description>
+    <generator>Hugo</generator>
+    <language>en-in</language>
+    <atom:link href="http://localhost:1313/log/2025/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Upper A — Push Day</title>
+      <link>http://localhost:1313/log/2025/upper-a/</link>
+      <pubDate>Sun, 23 Mar 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/log/2025/upper-a/</guid>
+      <description>&lt;p&gt;First Upper A session of the week. Shoulder press feels like 30kg is the current ceiling — need to work up to 6 clean reps before adding weight. Incline bench reps too low, dropping to 35kg next session and building volume properly.&lt;/p&gt;&#xA;&lt;p&gt;Face pulls at 35kg for 7 reps — rear delts responding well.&lt;/p&gt;&#xA;&lt;p&gt;Overall energy was good despite sleeping at 2AM. Morning walk done before session.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

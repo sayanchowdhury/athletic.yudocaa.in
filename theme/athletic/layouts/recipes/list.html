@@ -1,0 +1,369 @@
+{{ define "main" }}
+
+<div class="page-header">
+  <div class="page-header-inner">
+    <div class="hero-eyebrow">// recipe library</div>
+    <h1>Fuel<br><span style="color:var(--acid)">Library</span></h1>
+    <p style="margin-top:16px;max-width:480px">
+      {{ len .Site.Data.recipes }} recipes · all YAML-controlled · dinner, lunch, snacks, breakfast
+    </p>
+  </div>
+</div>
+
+<div class="container" style="padding-bottom:80px">
+
+  <!-- Controls row -->
+  <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:28px">
+    <div class="filter-bar" style="margin-bottom:0;flex:1">
+      <button class="filter-btn active" onclick="filterR('all',this)">All</button>
+      <button class="filter-btn" onclick="filterR('dinner',this)">Dinner</button>
+      <button class="filter-btn" onclick="filterR('lunch',this)">Lunch</button>
+      <button class="filter-btn" onclick="filterR('snack',this)">Snacks</button>
+      <button class="filter-btn" onclick="filterR('breakfast',this)">Breakfast</button>
+    </div>
+
+    <!-- Serving toggle -->
+    <div class="serving-toggle" style="display:flex;align-items:center;gap:0;border:1px solid var(--grey-3);border-radius:var(--radius);overflow:hidden;flex-shrink:0">
+      <button class="serving-btn active" onclick="setServings(1,this)" data-mult="1"
+        style="font-family:var(--font-display);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:6px 14px;border:none;cursor:pointer;transition:all .15s;background:var(--acid);color:var(--black)">
+        1 serving
+      </button>
+      <button class="serving-btn" onclick="setServings(3,this)" data-mult="3"
+        style="font-family:var(--font-display);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:6px 14px;border:none;cursor:pointer;transition:all .15s;background:transparent;color:var(--grey-6)">
+        3-day bulk
+      </button>
+    </div>
+
+    <!-- Surprise Me -->
+    <button class="btn btn-acid" onclick="openSurprise()" style="flex-shrink:0">
+      🎲 Surprise me
+    </button>
+  </div>
+
+  <div class="grid-3" id="recipe-grid">
+    {{ range $name, $r := .Site.Data.recipes }}
+    <a href="/recipes/{{ $r.slug }}/" class="card recipe-card" data-cat="{{ $r.category }}"
+       data-cal="{{ $r.calories }}" data-protein="{{ $r.macros.protein }}" data-carbs="{{ $r.macros.carbs }}" data-fat="{{ $r.macros.fat }}"
+       data-title="{{ $r.title }}" data-slug="{{ $r.slug }}" data-desc="{{ $r.description }}"
+       data-time="{{ $r.total_time }}" data-mealprep="{{ $r.meal_prep }}"
+       style="text-decoration:none">
+      <div class="recipe-cat-bar"></div>
+      <div class="card-body">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
+          <span class="pill {{ if eq $r.category "dinner" }}pill-amber{{ else if eq $r.category "lunch" }}pill-teal{{ else if eq $r.category "snack" }}pill-red{{ else }}pill-acid{{ end }}">{{ $r.category }}</span>
+          {{ if $r.meal_prep }}<span class="pill pill-ghost">📦 prep</span>{{ end }}
+        </div>
+        <div class="card-title" style="font-size:20px;margin-bottom:6px">{{ $r.title }}</div>
+        <div class="card-desc">{{ $r.description }}</div>
+        <div class="macro-bar-wrap">
+          <div class="macro-seg-p" style="flex:{{ $r.macros.protein }}"></div>
+          <div class="macro-seg-c" style="flex:{{ $r.macros.carbs }}"></div>
+          <div class="macro-seg-f" style="flex:{{ $r.macros.fat }}"></div>
+        </div>
+        <div style="display:flex;gap:14px;font-family:var(--font-mono);font-size:12px;color:var(--grey-6)">
+          <span>⏱ <span class="r-time">{{ $r.total_time }}</span>m</span>
+          <span style="color:var(--teal)"><span class="r-protein">{{ $r.macros.protein }}</span>g P</span>
+          <span><span class="r-cal">{{ $r.calories }}</span> kcal</span>
+          {{ if $r.meal_prep }}<span style="color:var(--acid)">meal prep ✓</span>{{ end }}
+        </div>
+      </div>
+    </a>
+    {{ end }}
+  </div>
+</div>
+
+<!-- Surprise Me Modal -->
+<div id="surprise-modal" style="display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px)">
+  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:24px">
+
+    <!-- Close -->
+    <button onclick="closeSurprise()" style="position:absolute;top:20px;right:24px;background:none;border:none;color:var(--grey-6);font-size:28px;cursor:pointer;z-index:10">&times;</button>
+
+    <!-- Header -->
+    <div style="font-family:var(--font-mono);font-size:11px;color:var(--acid);text-transform:uppercase;letter-spacing:.15em;margin-bottom:24px">
+      Swipe to decide · <span id="surprise-counter"></span>
+    </div>
+
+    <!-- Card stack -->
+    <div id="surprise-stack" style="position:relative;width:340px;height:460px">
+      <!-- Cards injected by JS -->
+    </div>
+
+    <!-- Swipe buttons -->
+    <div style="display:flex;gap:24px;margin-top:32px">
+      <button id="btn-nope" onclick="swipeCard('left')" style="width:64px;height:64px;border-radius:50%;border:2px solid var(--red);background:rgba(255,61,61,0.1);color:var(--red);font-size:24px;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center">
+        ✕
+      </button>
+      <button id="btn-yep" onclick="swipeCard('right')" style="width:64px;height:64px;border-radius:50%;border:2px solid var(--acid);background:rgba(200,255,0,0.1);color:var(--acid);font-size:24px;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center">
+        ♥
+      </button>
+    </div>
+
+    <!-- Hint -->
+    <div style="font-family:var(--font-mono);font-size:11px;color:var(--grey-5);margin-top:16px">
+      ← nope · drag or tap · let's cook →
+    </div>
+  </div>
+</div>
+
+{{ end }}
+
+{{ define "scripts" }}
+<style>
+  .surprise-card {
+    position: absolute; inset: 0;
+    background: var(--grey-1);
+    border: 1px solid var(--grey-3);
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: grab;
+    transition: transform 0.5s cubic-bezier(.22,.68,0,1.1), opacity 0.4s ease;
+    user-select: none;
+    touch-action: pan-y;
+    display: flex;
+    flex-direction: column;
+  }
+  .surprise-card.dragging { transition: none; cursor: grabbing; }
+  .surprise-card .swipe-indicator {
+    position: absolute; top: 24px; padding: 8px 18px;
+    font-family: var(--font-display); font-size: 24px; font-weight: 900;
+    text-transform: uppercase; letter-spacing: .06em;
+    border-radius: 6px; border: 3px solid; opacity: 0;
+    transition: opacity .15s; pointer-events: none; z-index: 2;
+  }
+  .surprise-card .swipe-nope {
+    right: 20px; color: var(--red); border-color: var(--red);
+    transform: rotate(12deg);
+  }
+  .surprise-card .swipe-yep {
+    left: 20px; color: var(--acid); border-color: var(--acid);
+    transform: rotate(-12deg);
+  }
+</style>
+<script>
+/* ── Serving toggle ── */
+var currentMult = 1;
+function setServings(mult, btn) {
+  currentMult = mult;
+  document.querySelectorAll('.serving-btn').forEach(function(b) {
+    if (parseInt(b.dataset.mult) === mult) {
+      b.style.background = 'var(--acid)'; b.style.color = 'var(--black)';
+      b.classList.add('active');
+    } else {
+      b.style.background = 'transparent'; b.style.color = 'var(--grey-6)';
+      b.classList.remove('active');
+    }
+  });
+  document.querySelectorAll('.recipe-card').forEach(function(c) {
+    var baseCal = parseInt(c.dataset.cal);
+    var baseP = parseInt(c.dataset.protein);
+    c.querySelector('.r-cal').textContent = baseCal * mult;
+    c.querySelector('.r-protein').textContent = baseP * mult;
+  });
+}
+
+/* ── Category filter ── */
+function filterR(cat, btn) {
+  document.querySelectorAll('.filter-bar .filter-btn').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  document.querySelectorAll('.recipe-card').forEach(function(c) {
+    c.style.display = (cat === 'all' || c.dataset.cat === cat) ? 'block' : 'none';
+  });
+}
+
+/* ── Surprise Me ── */
+var surpriseRecipes = [];
+var surpriseIdx = 0;
+
+function openSurprise() {
+  /* Gather visible recipe data */
+  surpriseRecipes = [];
+  document.querySelectorAll('.recipe-card').forEach(function(c) {
+    if (c.style.display === 'none') return;
+    surpriseRecipes.push({
+      title: c.dataset.title,
+      slug: c.dataset.slug,
+      desc: c.dataset.desc,
+      cat: c.dataset.cat,
+      cal: parseInt(c.dataset.cal),
+      protein: parseInt(c.dataset.protein),
+      carbs: parseInt(c.dataset.carbs),
+      fat: parseInt(c.dataset.fat),
+      time: c.dataset.time,
+      mealprep: c.dataset.mealprep === 'true'
+    });
+  });
+  /* Shuffle */
+  for (var i = surpriseRecipes.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = surpriseRecipes[i]; surpriseRecipes[i] = surpriseRecipes[j]; surpriseRecipes[j] = t;
+  }
+  surpriseIdx = 0;
+  renderStack();
+  document.getElementById('surprise-modal').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeSurprise() {
+  document.getElementById('surprise-modal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+function renderStack() {
+  var stack = document.getElementById('surprise-stack');
+  stack.innerHTML = '';
+  var counter = document.getElementById('surprise-counter');
+
+  if (surpriseIdx >= surpriseRecipes.length) {
+    stack.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;text-align:center">' +
+      '<div><div style="font-size:48px;margin-bottom:16px">🍳</div>' +
+      '<div style="font-family:var(--font-display);font-size:24px;font-weight:800;text-transform:uppercase;color:var(--white);margin-bottom:8px">No more recipes</div>' +
+      '<div style="font-size:15px;color:var(--white);opacity:0.6">You\'ve seen them all!</div>' +
+      '<button onclick="closeSurprise()" class="btn btn-ghost" style="margin-top:20px">Close</button></div></div>';
+    counter.textContent = 'done';
+    return;
+  }
+
+  counter.textContent = (surpriseIdx + 1) + ' / ' + surpriseRecipes.length;
+
+  /* Render up to 3 stacked cards (back to front) */
+  var end = Math.min(surpriseIdx + 3, surpriseRecipes.length);
+  for (var i = end - 1; i >= surpriseIdx; i--) {
+    var r = surpriseRecipes[i];
+    var depth = i - surpriseIdx;
+    var card = document.createElement('div');
+    card.className = 'surprise-card';
+    card.dataset.idx = i;
+    card.style.zIndex = 10 - depth;
+    card.style.transform = 'scale(' + (1 - depth * 0.04) + ') translateY(' + (depth * 12) + 'px)';
+    card.style.opacity = depth === 0 ? '1' : '0.6';
+
+    var catColor = r.cat === 'dinner' ? 'var(--amber)' : r.cat === 'lunch' ? 'var(--teal)' : r.cat === 'snack' ? 'var(--red)' : 'var(--acid)';
+    var mult = currentMult;
+
+    card.innerHTML =
+      '<div class="swipe-indicator swipe-nope">Nope</div>' +
+      '<div class="swipe-indicator swipe-yep">Cook!</div>' +
+      /* Accent bar */
+      '<div style="height:4px;background:' + catColor + '"></div>' +
+      /* Card content */
+      '<div style="flex:1;display:flex;flex-direction:column;padding:28px 24px">' +
+        /* Category + badge */
+        '<div style="display:flex;gap:8px;margin-bottom:16px">' +
+          '<span class="pill" style="background:' + catColor + ';color:var(--black)">' + r.cat + '</span>' +
+          (r.mealprep ? '<span class="pill pill-ghost">📦 prep</span>' : '') +
+        '</div>' +
+        /* Title */
+        '<div style="font-family:var(--font-display);font-size:32px;font-weight:900;text-transform:uppercase;color:var(--white);line-height:1.1;margin-bottom:12px">' + r.title + '</div>' +
+        /* Description */
+        '<div style="font-size:15px;color:var(--white);opacity:0.7;line-height:1.6;margin-bottom:auto">' + r.desc + '</div>' +
+        /* Macro bar */
+        '<div class="macro-bar-wrap" style="height:6px;margin:20px 0 16px">' +
+          '<div class="macro-seg-p" style="flex:' + r.protein + '"></div>' +
+          '<div class="macro-seg-c" style="flex:' + r.carbs + '"></div>' +
+          '<div class="macro-seg-f" style="flex:' + r.fat + '"></div>' +
+        '</div>' +
+        /* Stats row */
+        '<div style="display:flex;gap:16px;font-family:var(--font-mono);font-size:13px">' +
+          '<span style="color:var(--grey-6)">⏱ ' + r.time + 'm</span>' +
+          '<span style="color:var(--teal)">' + (r.protein * mult) + 'g P</span>' +
+          '<span style="color:var(--grey-6)">' + (r.cal * mult) + ' kcal</span>' +
+        '</div>' +
+      '</div>';
+
+    stack.appendChild(card);
+
+    /* Only the top card is interactive */
+    if (depth === 0) initDrag(card, r);
+  }
+}
+
+function initDrag(card, recipe) {
+  var startX = 0, currentX = 0, dragging = false;
+  var threshold = 100;
+
+  function onStart(e) {
+    dragging = true;
+    startX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+    currentX = 0;
+    card.classList.add('dragging');
+  }
+
+  function onMove(e) {
+    if (!dragging) return;
+    var x = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+    currentX = x - startX;
+    var rotation = currentX * 0.08;
+    card.style.transform = 'translateX(' + currentX + 'px) rotate(' + rotation + 'deg)';
+
+    /* Show swipe indicators */
+    var nope = card.querySelector('.swipe-nope');
+    var yep = card.querySelector('.swipe-yep');
+    nope.style.opacity = currentX < -30 ? Math.min((-currentX - 30) / 70, 1) : 0;
+    yep.style.opacity = currentX > 30 ? Math.min((currentX - 30) / 70, 1) : 0;
+  }
+
+  function onEnd() {
+    if (!dragging) return;
+    dragging = false;
+    card.classList.remove('dragging');
+
+    if (currentX > threshold) {
+      flyOut('right', card, recipe);
+    } else if (currentX < -threshold) {
+      flyOut('left', card, recipe);
+    } else {
+      /* Snap back */
+      card.style.transform = 'scale(1) translateY(0)';
+      card.querySelector('.swipe-nope').style.opacity = 0;
+      card.querySelector('.swipe-yep').style.opacity = 0;
+    }
+  }
+
+  card.addEventListener('mousedown', onStart);
+  document.addEventListener('mousemove', onMove);
+  document.addEventListener('mouseup', onEnd);
+  card.addEventListener('touchstart', onStart, { passive: true });
+  document.addEventListener('touchmove', onMove, { passive: true });
+  document.addEventListener('touchend', onEnd);
+}
+
+function swipeCard(dir) {
+  var stack = document.getElementById('surprise-stack');
+  var top = stack.querySelector('.surprise-card[data-idx="' + surpriseIdx + '"]');
+  if (!top) return;
+  var recipe = surpriseRecipes[surpriseIdx];
+  flyOut(dir, top, recipe);
+}
+
+function flyOut(dir, card, recipe) {
+  var offX = dir === 'right' ? 600 : -600;
+  var rot = dir === 'right' ? 30 : -30;
+  card.style.transition = 'transform 0.45s cubic-bezier(.22,.68,0,1.1), opacity 0.35s ease';
+  card.style.transform = 'translateX(' + offX + 'px) rotate(' + rot + 'deg)';
+  card.style.opacity = '0';
+
+  if (dir === 'right') {
+    /* Navigate to recipe */
+    setTimeout(function() {
+      closeSurprise();
+      window.location.href = '/recipes/' + recipe.slug + '/';
+    }, 350);
+    return;
+  }
+
+  /* Left swipe — next card */
+  surpriseIdx++;
+  setTimeout(renderStack, 400);
+}
+
+/* Close on Escape */
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeSurprise();
+  if (document.getElementById('surprise-modal').style.display === 'block') {
+    if (e.key === 'ArrowLeft') swipeCard('left');
+    if (e.key === 'ArrowRight') swipeCard('right');
+  }
+});
+</script>
+{{ end }}

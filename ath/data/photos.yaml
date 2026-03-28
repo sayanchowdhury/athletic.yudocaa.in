@@ -1,0 +1,14 @@
+# data/photos.yaml
+# Add a new entry each month with your progress photos
+
+- month: "March"
+  year: 2025
+  weight: 85.0
+  waist: 94
+  body_fat: "~23"
+  notes: "Starting point. Central adiposity pattern, relatively lean legs."
+  images:
+    - caption: "Front — March 2025"
+      url: ""   # add path to your image e.g. /photos/2025-03-front.jpg
+    - caption: "Side — March 2025"
+      url: ""

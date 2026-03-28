@@ -1,0 +1,126 @@
+{{ define "main" }}
+{{ $stats := .Site.Data.stats }}
+
+<div class="page-header">
+  <div class="page-header-inner">
+    <div class="hero-eyebrow">// body stats tracker</div>
+    <h1>The<br><span style="color:var(--acid)">Numbers</span></h1>
+  </div>
+</div>
+
+<div class="container" style="padding-bottom:80px">
+
+  <!-- Current snapshot -->
+  <div class="sec-label">Current snapshot</div>
+  <div class="stat-grid" style="margin-bottom:40px">
+    <div class="stat-block">
+      <div class="stat-val acid">{{ $stats.current_weight }}</div>
+      <div class="stat-lbl">Weight (kg)</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-val">{{ $stats.waist_cm | default "—" }}</div>
+      <div class="stat-lbl">Waist (cm)</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-val">{{ $stats.body_fat | default "~23" }}%</div>
+      <div class="stat-lbl">Body fat est.</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-val">{{ $stats.lean_mass | default "~65" }}</div>
+      <div class="stat-lbl">Lean mass (kg)</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-val">{{ $stats.target_weight }}</div>
+      <div class="stat-lbl">Target (kg)</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-val">{{ $stats.to_lose | default "~7" }}</div>
+      <div class="stat-lbl">kg to lose</div>
+    </div>
+  </div>
+
+  <!-- Progress to target -->
+  <div class="sec-label">Progress to target</div>
+  <div class="card" style="margin-bottom:40px">
+    <div class="card-body">
+      {{ $start := $stats.start_weight | default 85.0 }}
+      {{ $current := $stats.current_weight | default 85.0 }}
+      {{ $target := $stats.target_weight | default 78.0 }}
+      {{ $total := sub $start $target }}
+      {{ $done := sub $start $current }}
+      {{ $pct := 0 }}
+      {{ if gt $total 0.0 }}{{ $pct = int (div (mul $done 100) $total) }}{{ end }}
+
+      <div style="display:flex;justify-content:space-between;margin-bottom:10px">
+        <span style="font-family:var(--font-mono);font-size:11px;color:var(--grey-5)">START {{ $start }}kg</span>
+        <span style="font-family:var(--font-display);font-size:20px;font-weight:900;color:var(--acid)">{{ $pct }}% there</span>
+        <span style="font-family:var(--font-mono);font-size:11px;color:var(--grey-5)">TARGET {{ $target }}kg</span>
+      </div>
+      <div style="height:12px;background:var(--grey-3);border-radius:6px;overflow:hidden">
+        <div style="height:100%;width:{{ $pct }}%;background:var(--acid);border-radius:6px;transition:width 1s ease"></div>
+      </div>
+      <div style="margin-top:10px;font-size:12px;color:var(--grey-5);font-family:var(--font-mono)">
+        {{ printf "%.2f" $done }}kg lost · {{ printf "%.2f" (sub $current $target) }}kg remaining at 0.5–0.75kg/week
+      </div>
+    </div>
+  </div>
+
+  <!-- Weekly log table -->
+  {{ with $stats.weekly_log }}
+  <div class="sec-label">Weekly weigh-ins</div>
+  <div class="card" style="margin-bottom:40px;overflow:auto">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Week</th>
+          <th>Date</th>
+          <th>Weight (kg)</th>
+          <th>Waist (cm)</th>
+          <th>Change</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{ range . }}
+        <tr>
+          <td style="font-family:var(--font-mono);color:var(--acid)">W{{ .week }}</td>
+          <td style="font-family:var(--font-mono);font-size:12px;color:var(--grey-5)">{{ .date }}</td>
+          <td style="font-weight:600;color:var(--white)">{{ .weight }}</td>
+          <td style="color:var(--grey-6)">{{ .waist | default "—" }}</td>
+          <td style="font-family:var(--font-mono);font-size:12px;{{ if lt (.change | default 0.0) 0.0 }}color:var(--teal){{ else if gt (.change | default 0.0) 0.0 }}color:var(--red){{ else }}color:var(--grey-5){{ end }}">
+            {{ with .change }}{{ if gt . 0.0 }}+{{ end }}{{ . }}kg{{ else }}—{{ end }}
+          </td>
+          <td style="font-size:12px;color:var(--grey-5)">{{ .notes | default "—" }}</td>
+        </tr>
+        {{ end }}
+      </tbody>
+    </table>
+  </div>
+  {{ end }}
+
+  <!-- Calorie targets -->
+  <div class="sec-label">Daily targets</div>
+  <div class="grid-2" style="margin-bottom:40px">
+    <div class="card">
+      <div class="card-accent-top"></div>
+      <div class="card-body">
+        <div style="font-family:var(--font-mono);font-size:10px;color:var(--acid);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px">Training days</div>
+        <div class="prog-row"><span class="prog-lbl">Calories</span><div class="prog-track"><div class="prog-fill" style="width:100%;background:var(--amber)"></div></div><span class="prog-val">2,400</span></div>
+        <div class="prog-row"><span class="prog-lbl">Protein</span><div class="prog-track"><div class="prog-fill" style="width:100%;background:var(--teal)"></div></div><span class="prog-val">85g</span></div>
+        <div class="prog-row"><span class="prog-lbl">Carbs</span><div class="prog-track"><div class="prog-fill" style="width:85%;background:var(--amber)"></div></div><span class="prog-val">~220g</span></div>
+        <div class="prog-row"><span class="prog-lbl">Fat</span><div class="prog-track"><div class="prog-fill" style="width:72%;background:var(--red)"></div></div><span class="prog-val">~65g</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <div style="font-family:var(--font-mono);font-size:10px;color:var(--grey-5);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px">Rest days</div>
+        <div class="prog-row"><span class="prog-lbl">Calories</span><div class="prog-track"><div class="prog-fill" style="width:84%;background:var(--amber)"></div></div><span class="prog-val">2,000</span></div>
+        <div class="prog-row"><span class="prog-lbl">Protein</span><div class="prog-track"><div class="prog-fill" style="width:100%;background:var(--teal)"></div></div><span class="prog-val">85g</span></div>
+        <div class="prog-row"><span class="prog-lbl">Carbs</span><div class="prog-track"><div class="prog-fill" style="width:70%;background:var(--amber)"></div></div><span class="prog-val">~175g</span></div>
+        <div class="prog-row"><span class="prog-lbl">Fat</span><div class="prog-track"><div class="prog-fill" style="width:65%;background:var(--red)"></div></div><span class="prog-val">~60g</span></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{{ end }}

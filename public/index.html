@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="generator" content="Hugo 0.159.1"><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>athletic-log</title>
+  <meta name="description" content="Sayan&#39;s fitness tracking site — workouts, recipes, body stats, daily log">
+  <link rel="stylesheet" href="/css/athletic.css">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  
+  <script>
+    (function(){var t=localStorage.getItem('theme');if(t){document.documentElement.setAttribute('data-theme',t)}})();
+  </script>
+</head>
+<body>
+
+
+<div id="lock-screen" style="display:none;position:fixed;inset:0;z-index:9999;background:var(--black);display:flex;align-items:center;justify-content:center">
+  <div style="text-align:center;max-width:360px;padding:24px">
+    <div style="font-family:var(--font-display);font-size:28px;font-weight:900;text-transform:uppercase;color:var(--acid);margin-bottom:8px">ATH<span style="color:var(--white)">&middot;</span>LOG</div>
+    <p style="font-size:13px;color:var(--grey-5);margin-bottom:32px">Enter password to continue</p>
+    <input id="lock-input" type="password" placeholder="Password" autofocus
+      style="width:100%;padding:12px 16px;font-family:var(--font-mono);font-size:14px;background:var(--grey-1);border:1px solid var(--grey-3);border-radius:var(--radius);color:var(--white);outline:none;margin-bottom:12px">
+    <div id="lock-error" style="font-family:var(--font-mono);font-size:11px;color:var(--red);margin-bottom:12px;visibility:hidden">Wrong password</div>
+    <button id="lock-btn" style="width:100%;padding:12px;font-family:var(--font-display);font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;background:var(--acid);color:var(--black);border:none;border-radius:var(--radius);cursor:pointer">Unlock</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  var HASH='90ba5c921c279f94c03a8840942b9ca6c1ba0991321deaea3890ea0a72cd52a7';
+  var lock=document.getElementById('lock-screen');
+  if(localStorage.getItem('ath-unlocked')===HASH){lock.style.display='none';return}
+  lock.style.display='flex';
+  document.getElementById('lock-btn').addEventListener('click',tryUnlock);
+  document.getElementById('lock-input').addEventListener('keydown',function(e){if(e.key==='Enter')tryUnlock()});
+  async function tryUnlock(){
+    var pw=document.getElementById('lock-input').value;
+    var buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(pw));
+    var hash=Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,'0')}).join('');
+    if(hash===HASH){localStorage.setItem('ath-unlocked',HASH);lock.style.display='none'}
+    else{document.getElementById('lock-error').style.visibility='visible';document.getElementById('lock-input').value=''}
+  }
+})();
+</script>
+
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="/" class="nav-brand">
+      ATH<span>·</span>LOG
+    </a>
+    <div class="nav-links" id="nav-links">
+      <a href="/" class="nav-link active">Home</a>
+      <a href="/log/" class="nav-link">Daily Log</a>
+      <a href="/fitness/" class="nav-link">Fitness</a>
+      <a href="/recipes/" class="nav-link">Recipes</a>
+      <a href="/meals/" class="nav-link">Meal Plan</a>
+      <a href="/plan/" class="nav-link">Plan</a>
+      <a href="/stats/" class="nav-link">Stats</a>
+      <a href="/photos/" class="nav-link">Photos</a>
+    </div>
+    <span class="nav-meta" id="nav-clock"></span>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">☀</button>
+    <button class="nav-toggle" onclick="document.getElementById('nav-links').classList.toggle('open')">☰</button>
+  </div>
+</nav>
+
+
+<main>
+  
+
+
+
+
+
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-eyebrow">// training log active</div>
+    <h1 class="hero-title">
+      Built<br>
+      <span class="accent">different.</span>
+    </h1>
+    <p class="hero-sub">Tracking every rep, every meal, every day. Body recomposition in progress.</p>
+    <div class="hero-stats">
+      
+      <div class="hstat">
+        <div class="hstat-val">83.9</div>
+        <div class="hstat-lbl">kg bodyweight</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val">~23%</div>
+        <div class="hstat-lbl">body fat est.</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val">4</div>
+        <div class="hstat-lbl">weeks in</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val">78</div>
+        <div class="hstat-lbl">kg target</div>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+
+<section style="padding:48px 0 0">
+  <div class="container">
+    <div class="sec-label">Activity tracker</div>
+    <div style="display:flex;gap:8px;align-items:start">
+      <div class="tracker-day-labels">
+        <div></div><div>Mon</div><div></div><div>Wed</div><div></div><div>Fri</div><div></div>
+      </div>
+      <div style="flex:1;overflow-x:auto">
+        <div class="tracker-grid" id="tracker-grid"></div>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
+      <div style="font-family:var(--font-mono);font-size:11px;color:var(--grey-5)">
+        <span id="tracker-count" style="color:var(--acid)">0</span> entries since 01 Mar 2026
+      </div>
+      <div style="display:flex;align-items:center;gap:4px;font-family:var(--font-mono);font-size:10px;color:var(--grey-5)">
+        Less
+        <span class="tracker-legend" style="background:var(--grey-2)"></span>
+        <span class="tracker-legend" style="background:var(--acid)"></span>
+        More
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<script>
+(function() {
+  var loggedDates = new Set();
+  
+    
+    
+  loggedDates.add(new Date("March 28, 2026").toISOString().slice(0,10));
+    
+  loggedDates.add(new Date("March 27, 2026").toISOString().slice(0,10));
+    
+  loggedDates.add(new Date("March 26, 2026").toISOString().slice(0,10));
+    
+  loggedDates.add(new Date("March 25, 2026").toISOString().slice(0,10));
+    
+  loggedDates.add(new Date("March 24, 2026").toISOString().slice(0,10));
+    
+  loggedDates.add(new Date("March 23, 2026").toISOString().slice(0,10));
+    
+  loggedDates.add(new Date("March 22, 2026").toISOString().slice(0,10));
+    
+  loggedDates.add(new Date("March 21, 2026").toISOString().slice(0,10));
+    
+  loggedDates.add(new Date("March 20, 2026").toISOString().slice(0,10));
+    
+  loggedDates.add(new Date("March 18, 2026").toISOString().slice(0,10));
+    
+  loggedDates.add(new Date("March 17, 2026").toISOString().slice(0,10));
+    
+  loggedDates.add(new Date("March 11, 2026").toISOString().slice(0,10));
+    
+  loggedDates.add(new Date("March 6, 2026").toISOString().slice(0,10));
+    
+  loggedDates.add(new Date("March 5, 2026").toISOString().slice(0,10));
+    
+  loggedDates.add(new Date("March 4, 2026").toISOString().slice(0,10));
+    
+  loggedDates.add(new Date("March 3, 2026").toISOString().slice(0,10));
+    
+  loggedDates.add(new Date("March 2, 2026").toISOString().slice(0,10));
+    
+  
+
+  var startDate = new Date(2026, 2, 1); 
+  var today = new Date();
+  today.setHours(0,0,0,0);
+
+  
+  var gridStart = new Date(startDate);
+  gridStart.setDate(gridStart.getDate() - gridStart.getDay());
+
+  var grid = document.getElementById('tracker-grid');
+  var cur = new Date(gridStart);
+
+  while (cur <= today) {
+    var cell = document.createElement('div');
+    var ds = cur.toISOString().slice(0,10);
+    cell.className = 'tracker-cell';
+
+    if (cur < startDate) {
+      cell.style.visibility = 'hidden';
+    } else if (loggedDates.has(ds)) {
+      cell.classList.add('logged');
+    }
+    if (cur.getTime() === today.getTime()) {
+      cell.classList.add('today');
+    }
+    cell.title = ds;
+    grid.appendChild(cell);
+    cur.setDate(cur.getDate() + 1);
+  }
+
+  document.getElementById('tracker-count').textContent = loggedDates.size;
+})();
+</script>
+
+
+
+<section style="padding:48px 0">
+  <div class="container">
+    <div class="sec-label">Body stats</div>
+    <div class="stat-grid">
+      <div class="stat-block">
+        <div class="stat-val acid">83.9</div>
+        <div class="stat-lbl">Current weight (kg)</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-val">94</div>
+        <div class="stat-lbl">Waist (cm)</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-val">~23%</div>
+        <div class="stat-lbl">Body fat (est.)</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-val">78</div>
+        <div class="stat-lbl">Target weight (kg)</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-val">0.5–0.75</div>
+        <div class="stat-lbl">kg/week target loss</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-val">4</div>
+        <div class="stat-lbl">Training days/week</div>
+      </div>
+    </div>
+    <div style="margin-top:16px;text-align:right">
+      <a href="/stats/" class="btn btn-ghost">Full stats →</a>
+    </div>
+  </div>
+</section>
+
+
+
+<section style="padding:0 0 48px">
+  <div class="container">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <div class="sec-label" style="margin:0;flex:1">Recent recipes</div>
+      <a href="/recipes/" class="btn btn-ghost">All recipes →</a>
+    </div>
+    <div class="grid-3">
+      
+      
+        
+        <a href="/recipes/brown-chana-sprouts/" class="card recipe-card" data-cat="snack" style="text-decoration:none">
+          <div class="recipe-cat-bar"></div>
+          <div class="card-body">
+            <div style="margin-bottom:8px">
+              <span class="pill pill-red">snack</span>
+            </div>
+            <div class="card-title" style="font-size:18px">Brown Chana Sprouts Bowl</div>
+            <div class="card-desc">Brown chana sprouted overnight. Best mid-morning or evening snack — zero cooking, high protein, filling.</div>
+            <div style="display:flex;gap:12px;margin-top:12px;font-family:var(--font-mono);font-size:11px;color:var(--grey-5)">
+              <span>⏱ 2min</span>
+              <span style="color:var(--teal)">10g P</span>
+              <span>150 kcal</span>
+            </div>
+          </div>
+        </a>
+        
+        
+      
+        
+        <a href="/recipes/chicken-jeera-rice/" class="card recipe-card" data-cat="lunch" style="text-decoration:none">
+          <div class="recipe-cat-bar"></div>
+          <div class="card-body">
+            <div style="margin-bottom:8px">
+              <span class="pill pill-teal">lunch</span>
+            </div>
+            <div class="card-title" style="font-size:18px">Chicken Jeera Rice</div>
+            <div class="card-desc">One-pot jeera rice with chicken. Everything cooks together — minimal cleanup.</div>
+            <div style="display:flex;gap:12px;margin-top:12px;font-family:var(--font-mono);font-size:11px;color:var(--grey-5)">
+              <span>⏱ 30min</span>
+              <span style="color:var(--teal)">38g P</span>
+              <span>520 kcal</span>
+            </div>
+          </div>
+        </a>
+        
+        
+      
+        
+        <a href="/recipes/chicken-masala-dinner/" class="card recipe-card" data-cat="dinner" style="text-decoration:none">
+          <div class="recipe-cat-bar"></div>
+          <div class="card-body">
+            <div style="margin-bottom:8px">
+              <span class="pill pill-amber">dinner</span>
+            </div>
+            <div class="card-title" style="font-size:18px">Dry Masala Chicken</div>
+            <div class="card-desc">Curd-marinated dry masala chicken. Works as a meal prep block for Mon–Wed.</div>
+            <div style="display:flex;gap:12px;margin-top:12px;font-family:var(--font-mono);font-size:11px;color:var(--grey-5)">
+              <span>⏱ 30min</span>
+              <span style="color:var(--teal)">30g P</span>
+              <span>340 kcal</span>
+            </div>
+          </div>
+        </a>
+        
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+  </div>
+</section>
+
+
+
+
+<section style="padding:0 0 48px;border-top:1px solid var(--grey-3);padding-top:48px">
+  <div class="container">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <div class="sec-label" style="margin:0;flex:1">Fitness posts</div>
+      <a href="/fitness/" class="btn btn-ghost">All posts →</a>
+    </div>
+    <div class="grid-2">
+      
+      <a href="http://localhost:1313/fitness/2026/hope/" class="card" style="text-decoration:none">
+        <div class="card-body">
+          <div style="font-family:var(--font-mono);font-size:10px;color:var(--acid);margin-bottom:8px">02 Mar 2026</div>
+          <div class="card-title">Hope</div>
+          <div class="card-desc"><p>A thread to lose weight, and see a healthier version of me, v2026.6?. This is inspired from closely following
+<a href="https://priyankasaggu11929.github.io/fitness.html">Priyanka</a> and <a href="https://janusworx.com/fitness/">Jason</a></p>
+<p>This iteration is different from the 2021 version of weightloss. In 2021, the weightloss I did was mostly through
+walking 6kms a day. This really helped with bringing the metabolism, and dropping weight in 6 months. The problem
+was I looked skinny. This time I am trying a different route - I would be doing good amount of strength training
+with walking, skipping or running as cardio. I want to learn something new from this journey.</p></div>
+        </div>
+      </a>
+      
+      <a href="http://localhost:1313/fitness/2025/why-i-started-tracking-everything/" class="card" style="text-decoration:none">
+        <div class="card-body">
+          <div style="font-family:var(--font-mono);font-size:10px;color:var(--acid);margin-bottom:8px">01 Mar 2025</div>
+          <div class="card-title">Why I Started Tracking Everything</div>
+          <div class="card-desc"><p>Six months ago I was doing the same thing most desk-job engineers do — working long hours, sleeping at 2AM, eating inconsistently, telling myself I&rsquo;d start properly &ldquo;next week.&rdquo;</p>
+<p>The problem wasn&rsquo;t motivation. It was system design.</p>
+<p>I&rsquo;m a systems engineer. I build immutable infrastructure for a living. I understand that a system without observability is a system you cannot debug. And yet I was running my body as a complete black box — no inputs tracked, no outputs measured, no feedback loop.</p></div>
+        </div>
+      </a>
+      
+    </div>
+  </div>
+</section>
+
+
+
+
+
+<section style="padding:0 0 48px;border-top:1px solid var(--grey-3);padding-top:48px">
+  <div class="container">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <div class="sec-label" style="margin:0;flex:1">Daily journal</div>
+      <a href="/log/" class="btn btn-ghost">All logs →</a>
+    </div>
+    <div class="grid-3">
+      
+      
+      
+      
+      <a href="http://localhost:1313/log/2026/journal/" class="card" style="cursor:pointer;text-decoration:none">
+        <div class="card-accent-top"></div>
+        <div class="card-body" style="padding:32px 24px;text-align:center">
+          <div style="font-family:var(--font-display);font-size:72px;font-weight:900;color:var(--white);line-height:1">2026</div>
+          <div style="font-family:var(--font-mono);font-size:12px;color:var(--grey-5);margin-top:12px;text-transform:uppercase;letter-spacing:.1em">1 entry</div>
+          <div style="font-family:var(--font-mono);font-size:13px;color:var(--acid);margin-top:16px;letter-spacing:.05em">[ open → ]</div>
+        </div>
+      </a>
+      
+      
+      
+      
+      <a href="http://localhost:1313/log/2021/journal/" class="card" style="cursor:pointer;text-decoration:none">
+        <div class="card-accent-top"></div>
+        <div class="card-body" style="padding:32px 24px;text-align:center">
+          <div style="font-family:var(--font-display);font-size:72px;font-weight:900;color:var(--white);line-height:1">2021</div>
+          <div style="font-family:var(--font-mono);font-size:12px;color:var(--grey-5);margin-top:12px;text-transform:uppercase;letter-spacing:.1em">1 entry</div>
+          <div style="font-family:var(--font-mono);font-size:13px;color:var(--acid);margin-top:16px;letter-spacing:.05em">[ open → ]</div>
+        </div>
+      </a>
+      
+    </div>
+  </div>
+</section>
+
+
+
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <span class="footer-brand">ATH·LOG</span>
+    <span class="footer-meta">
+      Sayan Chowdhury ·
+      Started 2025 ·
+      Built with Hugo
+    </span>
+  </div>
+</footer>
+
+
+<script src="/js/athletic.js"></script>
+
+
+</body>
+</html>

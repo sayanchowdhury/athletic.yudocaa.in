@@ -1,0 +1,12 @@
+name = "Athletic"
+license = "MIT"
+licenselink = "https://opensource.org/licenses/MIT"
+description = "A bold, high-contrast Hugo theme for fitness tracking — workouts, recipes, body stats, and daily logs."
+homepage = "https://athletic.yudocaa.in"
+tags = ["fitness", "health", "blog", "personal"]
+features = ["Workout logs", "Recipe library", "Body stats tracker", "Daily log", "Meal plan"]
+min_version = "0.110.0"
+
+[author]
+  name = "Sayan Chowdhury"
+  homepage = "https://yudocaa.in"

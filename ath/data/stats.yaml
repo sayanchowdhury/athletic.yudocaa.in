@@ -1,0 +1,31 @@
+# data/stats.yaml
+# Update this file every Sunday morning after your weigh-in
+
+current_weight: 83.9
+start_weight: 85.8
+target_weight: 78.0
+body_fat: "~23"
+waist_cm: 94
+lean_mass: "~65"
+to_lose: "~5.9"
+weeks_training: 4
+weekly_loss: "0.5–0.75"
+training_days: 4
+
+weekly_log:
+  - week: 1
+    date: "2026-03-02"
+    weight: 85.8
+    change: 0.0
+  - week: 2
+    date: "2026-03-09"
+    weight: 85.5
+    change: -0.3
+  - week: 3
+    date: "2026-03-16"
+    weight: 84.9
+    change: -0.6
+  - week: 4
+    date: "2026-03-23"
+    weight: 84.3
+    change: -0.6

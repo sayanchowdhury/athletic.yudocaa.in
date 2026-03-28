@@ -1,0 +1,233 @@
+{{ define "main" }}
+
+{{/* Collect data */}}
+{{ $stats := .Site.Data.stats }}
+{{ $recipes := .Site.Data.recipes }}
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-eyebrow">{{ .Site.Params.heroEyebrow | default "// training log active" }}</div>
+    <h1 class="hero-title">
+      {{ .Site.Params.heroLine1 | default "Built" }}<br>
+      <span class="accent">{{ .Site.Params.heroLine2 | default "different." }}</span>
+    </h1>
+    <p class="hero-sub">{{ .Site.Params.heroSub | default "Tracking every rep, every meal, every day. Body recomposition in progress." }}</p>
+    <div class="hero-stats">
+      {{ with $stats }}
+      <div class="hstat">
+        <div class="hstat-val">{{ .current_weight | default "85" }}</div>
+        <div class="hstat-lbl">kg bodyweight</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val">{{ .body_fat | default "~23" }}%</div>
+        <div class="hstat-lbl">body fat est.</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val">{{ .weeks_training | default "4" }}</div>
+        <div class="hstat-lbl">weeks in</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val">{{ .target_weight | default "78" }}</div>
+        <div class="hstat-lbl">kg target</div>
+      </div>
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+<!-- ACTIVITY TRACKER -->
+<section style="padding:48px 0 0">
+  <div class="container">
+    <div class="sec-label">Activity tracker</div>
+    <div style="display:flex;gap:8px;align-items:start">
+      <div class="tracker-day-labels">
+        <div></div><div>Mon</div><div></div><div>Wed</div><div></div><div>Fri</div><div></div>
+      </div>
+      <div style="flex:1;overflow-x:auto">
+        <div class="tracker-grid" id="tracker-grid"></div>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
+      <div style="font-family:var(--font-mono);font-size:11px;color:var(--grey-5)">
+        <span id="tracker-count" style="color:var(--acid)">0</span> entries since 01 Mar 2026
+      </div>
+      <div style="display:flex;align-items:center;gap:4px;font-family:var(--font-mono);font-size:10px;color:var(--grey-5)">
+        Less
+        <span class="tracker-legend" style="background:var(--grey-2)"></span>
+        <span class="tracker-legend" style="background:var(--acid)"></span>
+        More
+      </div>
+    </div>
+  </div>
+</section>
+
+{{/* Extract logged dates from 2026 journal for the tracker */}}
+{{ $journal2026 := .Site.GetPage "/log/2026/journal" }}
+<script>
+(function() {
+  var loggedDates = new Set();
+  {{ with $journal2026 }}
+    {{ $matches := findRE "### \\w+ \\d{1,2}, \\d{4}" .RawContent }}
+    {{ range $matches }}
+  loggedDates.add(new Date("{{ replaceRE "### " "" . }}").toISOString().slice(0,10));
+    {{ end }}
+  {{ end }}
+
+  var startDate = new Date(2026, 2, 1); // March 1, 2026
+  var today = new Date();
+  today.setHours(0,0,0,0);
+
+  // Align start to Sunday of that week
+  var gridStart = new Date(startDate);
+  gridStart.setDate(gridStart.getDate() - gridStart.getDay());
+
+  var grid = document.getElementById('tracker-grid');
+  var cur = new Date(gridStart);
+
+  while (cur <= today) {
+    var cell = document.createElement('div');
+    var ds = cur.toISOString().slice(0,10);
+    cell.className = 'tracker-cell';
+
+    if (cur < startDate) {
+      cell.style.visibility = 'hidden';
+    } else if (loggedDates.has(ds)) {
+      cell.classList.add('logged');
+    }
+    if (cur.getTime() === today.getTime()) {
+      cell.classList.add('today');
+    }
+    cell.title = ds;
+    grid.appendChild(cell);
+    cur.setDate(cur.getDate() + 1);
+  }
+
+  document.getElementById('tracker-count').textContent = loggedDates.size;
+})();
+</script>
+
+<!-- QUICK STATS -->
+{{ with .Site.Data.stats }}
+<section style="padding:48px 0">
+  <div class="container">
+    <div class="sec-label">Body stats</div>
+    <div class="stat-grid">
+      <div class="stat-block">
+        <div class="stat-val acid">{{ .current_weight }}</div>
+        <div class="stat-lbl">Current weight (kg)</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-val">{{ .waist_cm | default "—" }}</div>
+        <div class="stat-lbl">Waist (cm)</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-val">{{ .body_fat | default "~23" }}%</div>
+        <div class="stat-lbl">Body fat (est.)</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-val">{{ .target_weight }}</div>
+        <div class="stat-lbl">Target weight (kg)</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-val">{{ .weekly_loss | default "0.5–0.75" }}</div>
+        <div class="stat-lbl">kg/week target loss</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-val">{{ .training_days | default "4" }}</div>
+        <div class="stat-lbl">Training days/week</div>
+      </div>
+    </div>
+    <div style="margin-top:16px;text-align:right">
+      <a href="/stats/" class="btn btn-ghost">Full stats →</a>
+    </div>
+  </div>
+</section>
+{{ end }}
+
+<!-- RECENT RECIPES -->
+<section style="padding:0 0 48px">
+  <div class="container">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <div class="sec-label" style="margin:0;flex:1">Recent recipes</div>
+      <a href="/recipes/" class="btn btn-ghost">All recipes →</a>
+    </div>
+    <div class="grid-3">
+      {{ $count := 0 }}
+      {{ range $name, $r := .Site.Data.recipes }}
+        {{ if lt $count 3 }}
+        <a href="/recipes/{{ $r.slug }}/" class="card recipe-card" data-cat="{{ $r.category }}" style="text-decoration:none">
+          <div class="recipe-cat-bar"></div>
+          <div class="card-body">
+            <div style="margin-bottom:8px">
+              <span class="pill {{ if eq $r.category "dinner" }}pill-amber{{ else if eq $r.category "lunch" }}pill-teal{{ else if eq $r.category "snack" }}pill-red{{ else }}pill-acid{{ end }}">{{ $r.category }}</span>
+            </div>
+            <div class="card-title" style="font-size:18px">{{ $r.title }}</div>
+            <div class="card-desc">{{ $r.description }}</div>
+            <div style="display:flex;gap:12px;margin-top:12px;font-family:var(--font-mono);font-size:11px;color:var(--grey-5)">
+              <span>⏱ {{ $r.total_time }}min</span>
+              <span style="color:var(--teal)">{{ $r.macros.protein }}g P</span>
+              <span>{{ $r.calories }} kcal</span>
+            </div>
+          </div>
+        </a>
+        {{ $count = add $count 1 }}
+        {{ end }}
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+<!-- RECENT FITNESS POSTS -->
+{{ $fitness := where .Site.RegularPages "Section" "fitness" }}
+{{ if $fitness }}
+<section style="padding:0 0 48px;border-top:1px solid var(--grey-3);padding-top:48px">
+  <div class="container">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <div class="sec-label" style="margin:0;flex:1">Fitness posts</div>
+      <a href="/fitness/" class="btn btn-ghost">All posts →</a>
+    </div>
+    <div class="grid-2">
+      {{ range first 2 $fitness }}
+      <a href="{{ .Permalink }}" class="card" style="text-decoration:none">
+        <div class="card-body">
+          <div style="font-family:var(--font-mono);font-size:10px;color:var(--acid);margin-bottom:8px">{{ .Date.Format "02 Jan 2006" }}</div>
+          <div class="card-title">{{ .Title }}</div>
+          <div class="card-desc">{{ .Summary }}</div>
+        </div>
+      </a>
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}
+
+<!-- DAILY JOURNAL -->
+{{ $logSection := .Site.GetPage "section" "log" }}
+{{ with $logSection }}
+<section style="padding:0 0 48px;border-top:1px solid var(--grey-3);padding-top:48px">
+  <div class="container">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <div class="sec-label" style="margin:0;flex:1">Daily journal</div>
+      <a href="/log/" class="btn btn-ghost">All logs →</a>
+    </div>
+    <div class="grid-3">
+      {{ range .Sections.ByDate.Reverse }}
+      {{ $href := .Permalink }}
+      {{ $journal := .GetPage "journal" }}
+      {{ with $journal }}{{ $href = .Permalink }}{{ end }}
+      <a href="{{ $href }}" class="card" style="cursor:pointer;text-decoration:none">
+        <div class="card-accent-top"></div>
+        <div class="card-body" style="padding:32px 24px;text-align:center">
+          <div style="font-family:var(--font-display);font-size:72px;font-weight:900;color:var(--white);line-height:1">{{ .Title }}</div>
+          <div style="font-family:var(--font-mono);font-size:12px;color:var(--grey-5);margin-top:12px;text-transform:uppercase;letter-spacing:.1em">{{ len .Pages }} {{ if eq (len .Pages) 1 }}entry{{ else }}entries{{ end }}</div>
+          <div style="font-family:var(--font-mono);font-size:13px;color:var(--acid);margin-top:16px;letter-spacing:.05em">[ open → ]</div>
+        </div>
+      </a>
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}
+
+{{ end }}
