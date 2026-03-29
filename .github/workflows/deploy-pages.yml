@@ -29,11 +29,17 @@ jobs:
         uses: peaceiris/actions-hugo@v3
         with:
           hugo-version: 'latest'
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
       - name: Build
-        run: hugo --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
+        run: make build
+        env:
+          HUGO_BASEURL: ${{ steps.pages.outputs.base_url }}/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

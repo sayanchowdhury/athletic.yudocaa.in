@@ -4,4 +4,4 @@ sync-stats:
 	@python3 scripts/sync-stats.py
 
 build: sync-stats
-	cd ath && hugo
+	hugo

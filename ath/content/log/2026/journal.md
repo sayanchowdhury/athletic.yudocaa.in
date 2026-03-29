@@ -5,7 +5,7 @@ authors:
   - "Sayan Chowdhury"
 ---
 
-This is accompanied with [Hope](/fitness/2025/)
+This is accompanied with [Hope](/fitness/2025/hope/)
 
 This is to maintain a daily journal of the efforts. This is to be seen from bottom
 to top.
@@ -16,6 +16,25 @@ To explain the jargons:
 - gw: goal weight
 
 Ok, lets start.
+
+### March 29, 2026
+```
+cw: 83.6
+```
+Yesterday morning, I did strength traning focussing on Legs.
+I skipped walking yesterday as we were not around + I did a light dinner to compensate
+the heavy lunch.
+
+btw, Woodchops is all clear now - I need to stand 90-degrees with legs and body absolutely
+at 90 and the cable should be adjusted at eye-level.
+The Face pull as well was wrong because the cable needs to be on top and then you
+do the face pull.
+
+From yesterday sessions:
+- During Sumo Squats, the knees are fine but the feets needs to be stable as currently
+it rises.
+- Need to find a better way for calf-raises.
+- I need to understand the form for Sumo Deadlift. Read more around Deadlift.
 
 ### March 28, 2026
 ```
