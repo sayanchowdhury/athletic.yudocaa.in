@@ -1,0 +1,42 @@
+title: "Overnight Soaked Rolled Oats"
+slug: "overnight-soaked-rolled-oats"
+category: "breakfast"
+protein_source: "whey"
+prep_time: 5
+cook_time: 0
+total_time: 10
+servings: 1
+calories: 515
+macros:
+  protein: 36
+  carbs: 69
+  fat: 12
+tags: ["breakfast", "no-cook", "high-protein", "overnight", "vegetarian"]
+meal_prep: true
+description: "Soak the night before, top in the morning. High-protein breakfast that takes 60 seconds before work."
+ingredients:
+  - item: "Rolled oats"
+    amount: "30g"
+  - item: "Milk"
+    amount: "150ml"
+  - item: "Chia seeds"
+    amount: "4g"
+  - item: "Whey protein"
+    amount: "1 scoop"
+  - item: "Honey"
+    amount: "1 drop"
+  - item: "Mixed berries"
+    amount: "7g"
+  - item: "Mixed seeds"
+    amount: "3g"
+  - item: "Banana (sliced)"
+    amount: "1 medium"
+  - item: "Pomegranate"
+    amount: "50g"
+steps:
+  - "Night before: in a jar, mix rolled oats, milk, chia seeds, honey and protein powder"
+  - "Stir well, cover and refrigerate overnight"
+  - "Morning: top with mixed berries, mixed seeds, sliced banana and pomegranate"
+  - "Eat straight from the jar"
+reheat: "Eat cold. Do not heat — chia and protein become gluey."
+notes: "Mix protein powder in well before refrigerating to avoid clumps. Add a splash of milk in the morning if it has thickened too much."
