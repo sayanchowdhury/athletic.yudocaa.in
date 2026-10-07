@@ -1,0 +1,392 @@
+{{ define "main" }}
+
+<style>
+/* Scoped to .tenk10k so it can't leak into the navbar/footer that share this page.
+   Reuses the site's own components (.card, .filter-btn, .hero-stats, .pill, .callout)
+   wherever they already do the job; only the plan-specific bits get their own rules. */
+.tenk10k{font-family:var(--font-body);font-size:15px;line-height:1.55;color:var(--white)}
+.tenk10k a{color:var(--acid)}
+.tenk10k .back-link{font-family:var(--font-mono);font-size:11px;color:var(--grey-5);text-transform:uppercase;letter-spacing:.1em;display:inline-block;margin-bottom:16px}
+.tenk10k .hero-stats{margin-top:24px}
+.tenk10k .hstat-val{font-size:26px}
+.tenk10k .progress{height:6px;background:var(--grey-2);border-radius:var(--radius);overflow:hidden;margin-top:24px;max-width:520px}
+.tenk10k .progress div{height:100%;width:0;background:var(--acid);transition:width .4s}
+.tenk10k .legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--grey-6);margin-top:16px;font-family:var(--font-mono)}
+.tenk10k .legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px;background:var(--c)}
+.tenk10k nav.top{position:sticky;top:56px;z-index:20;background:var(--black);border-bottom:1px solid var(--grey-3);padding:10px 24px}
+.tenk10k nav.top .row{max-width:1120px;margin:0 auto;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.tenk10k nav.top .row::-webkit-scrollbar{display:none}
+.tenk10k nav.top .row .filter-btn{flex-shrink:0}
+.tenk10k nav.top .row .filter-btn.wk.done{opacity:.55}
+.tenk10k section{scroll-margin-top:112px;margin-top:34px}
+.tenk10k h2{font-size:24px;margin:0 0 6px;letter-spacing:-.3px}
+.tenk10k h3{font-size:17px;margin:22px 0 8px}
+.tenk10k .muted{color:var(--grey-6)}
+.tenk10k table{width:100%;border-collapse:collapse;font-size:14px}
+.tenk10k th,.tenk10k td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--grey-3);vertical-align:top}
+.tenk10k th{color:var(--grey-6);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.4px}
+.tenk10k .weekhead{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;flex-wrap:wrap}
+.tenk10k .phase{font-family:var(--font-mono);font-size:12px;text-transform:uppercase;letter-spacing:.8px;color:var(--acid);font-weight:700}
+.tenk10k .daynav{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 4px}
+.tenk10k .daynav a{font-family:var(--font-mono);font-size:12px;padding:4px 9px;border-radius:var(--radius);text-decoration:none;color:var(--white);background:var(--grey-2);border:1px solid var(--grey-3)}
+.tenk10k .daynav a.k-run{border-left:3px solid var(--teal)}
+.tenk10k .daynav a.k-str{border-left:3px solid var(--amber)}
+.tenk10k .daynav a.k-combo{border-left:3px solid var(--teal);border-right:3px solid var(--amber)}
+.tenk10k .daynav a.k-rest{border-left:3px solid var(--grey-5)}
+.tenk10k .daynav a.k-race{border-left:3px solid var(--red)}
+.tenk10k .day{scroll-margin-top:112px;background:var(--grey-1);border:1px solid var(--grey-3);border-left:4px solid var(--grey-5);border-radius:var(--radius-lg);padding:14px 16px;margin:10px 0;transition:opacity .2s}
+.tenk10k .day.k-run{border-left-color:var(--teal)}
+.tenk10k .day.k-str{border-left-color:var(--amber)}
+.tenk10k .day.k-combo{border-left-color:var(--teal);border-right:4px solid var(--amber)}
+.tenk10k .day.k-race{border-left-color:var(--red);background:linear-gradient(135deg,var(--pill-red-bg),var(--grey-1))}
+.tenk10k .day.is-done{opacity:.55}
+.tenk10k .day.is-today{box-shadow:0 0 0 2px var(--acid)}
+.tenk10k .day .top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.tenk10k .dow{font-weight:700;font-size:13px;color:var(--grey-6);text-transform:uppercase;letter-spacing:.5px}
+.tenk10k .day h4{margin:8px 0 6px;font-size:17px}
+.tenk10k .day ul{margin:6px 0;padding-left:20px}
+.tenk10k .day li{margin:3px 0}
+.tenk10k .main{background:var(--grey-2);border-radius:var(--radius);padding:10px 12px;margin:8px 0;font-size:15px}
+.tenk10k .garmin-cmd{font-family:var(--font-mono);font-size:12px;color:var(--grey-6);margin-top:6px}
+.tenk10k .load{font-size:13px;color:var(--amber);margin:4px 0 8px}
+.tenk10k .block-title{font-family:var(--font-mono);font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--grey-6);margin-top:12px;font-weight:700}
+.tenk10k label.done{font-size:13px;color:var(--grey-6);display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none}
+.tenk10k label.done input{width:17px;height:17px;accent-color:var(--teal);cursor:pointer}
+.tenk10k .note{font-size:13px;color:var(--grey-6);margin-top:6px}
+.tenk10k ol.steps li{margin:6px 0}
+.tenk10k .backtop{font-size:12px;text-decoration:none;color:var(--grey-6)}
+.tenk10k .day[onclick]{cursor:pointer}
+@media(max-width:600px){
+  .tenk10k th,.tenk10k td{padding:6px 5px}
+}
+</style>
+
+<div class="tenk10k">
+<div class="page-header" id="top">
+  <div class="page-header-inner">
+    <a href="{{ "/plan/" | relURL }}" class="back-link">← Fitness Plan</a>
+    <div class="hero-eyebrow">// 10-week comeback block</div>
+    <h1>10K<br><span style="color:var(--acid)">Comeback Plan</span></h1>
+    <p class="hero-sub" style="margin-top:12px">From zero to race day, after 7 years off running.</p>
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-val">Thu, 8 Oct</div><div class="hstat-lbl">Start</div></div>
+      <div class="hstat"><div class="hstat-val">Sun, 13 Dec</div><div class="hstat-lbl">Race day</div></div>
+      <div class="hstat"><div class="hstat-val" id="statDone">0 / 0</div><div class="hstat-lbl">Sessions done</div></div>
+    </div>
+    <div class="progress"><div id="bar"></div></div>
+    <div class="legend">
+      <span style="--c:var(--teal)">Run</span><span style="--c:var(--amber)">Strength</span><span style="--c:var(--grey-5)">Rest / mobility</span><span style="--c:var(--red)">Race</span>
+    </div>
+  </div>
+</div>
+
+<nav class="top"><div class="row" id="nav"></div></nav>
+
+<div class="container" style="padding-bottom:80px">
+
+<section id="overview">
+  <h2>How this plan works</h2>
+  <div class="card"><div class="card-body">
+    <h3 style="margin-top:0">The golden rules</h3>
+    <ol>
+      <li><b>Easy means easy.</b> Most runs should be conversational, about 3–4 out of 10 effort. Your lungs will come back faster than your tendons and bones, and that gap is where injuries happen.</li>
+      <li><b>Time, not distance.</b> Runs are measured in minutes so you don't chase pace.</li>
+      <li><b>Repeat, don't skip.</b> If a week felt hard, repeat it. There is no spare week built in before the race, so if you repeat one, use the walk-run race strategy.</li>
+      <li><b>Pain rules.</b> General soreness is fine. Sharp, localized pain (shin, knee, Achilles, foot) that worsens while running means 2–3 days off running. If it persists, see a physio.</li>
+      <li><b>Strength supports running.</b> You lifted until 3 months ago, so strength returns fast. Still, no leg PRs until December. If your legs feel heavy on run days, cut a set from Monday, not a run.</li>
+    </ol>
+  </div></div>
+
+  <h3>Weekly template (Weeks 1–8)</h3>
+  <div class="card"><div class="card-body">
+    <table>
+      <tr><th>Day</th><th>Session</th><th>Why</th></tr>
+      <tr><td>Mon</td><td>Strength A: Lower body</td><td>Heaviest leg day, furthest from the long run</td></tr>
+      <tr><td>Tue</td><td>Run 1</td><td></td></tr>
+      <tr><td>Wed</td><td>Strength B: Upper + core (+ Run 4 from Week 5)</td><td>Upper body doesn't tire running legs</td></tr>
+      <tr><td>Thu</td><td>Run 2</td><td></td></tr>
+      <tr><td>Fri</td><td>Strength C: Single-leg + stability</td><td>Lighter, keeps legs fresh</td></tr>
+      <tr><td>Sat</td><td>Run 3: Long run</td><td>The key session of the week</td></tr>
+      <tr><td>Sun</td><td>Rest + mobility (optional 4th strength session)</td><td>Recovery and weekly check-in</td></tr>
+    </table>
+  </div></div>
+
+  <h3 id="paces" style="scroll-margin-top:112px">Paces &amp; treadmill speeds</h3>
+  <div class="card"><div class="card-body">
+    <table>
+      <tr><th>Segment</th><th>Treadmill</th><th>Pace</th><th>Feel</th></tr>
+      <tr><td>Brisk walk</td><td>5.5–6.5 km/h</td><td>~9:15–11:00 /km</td><td>Purposeful, arms swinging</td></tr>
+      <tr><td>Easy run</td><td>7.5–8.5 km/h</td><td>~7:00–8:00 /km</td><td>Full sentences</td></tr>
+      <tr><td>Comfortably hard</td><td>9–10 km/h</td><td>~6:00–6:40 /km</td><td>A few words only</td></tr>
+      <tr><td>Strides</td><td>Easy + 2–3 km/h</td><td>—</td><td>Quick and relaxed, not a sprint</td></tr>
+    </table>
+    <p class="note">Set the treadmill incline to 1%. Start at 7.5 km/h in Week 1 and raise it by 0.3–0.5 km/h only when it feels easy. Don't increase speed and duration in the same week. Use the Garmin <b>Treadmill</b> activity indoors and accept the calibration prompt afterward. Do Saturday long runs outdoors whenever possible.</p>
+  </div></div>
+
+  <div class="callout"><p><b>Every run</b> = 5 min brisk walk + the <a href="#warmup" class="jump">dynamic warm-up</a> (~8 min) → the main set → 5 min walk + calf &amp; hip-flexor stretch. Warm-up and cool-down are not counted in the run times.</p></div>
+</section>
+
+<section id="warmup">
+  <h2>Pre-run warm-up (~8 min)</h2>
+  <p class="muted">Do this after a 5-min brisk walk, before every run. Keep the stretches <b>moving</b>: hold each rep 1–2 seconds, not 30. Long static holds before running can leave legs feeling flat. Save those for the cool-down.</p>
+  <div class="card"><div class="card-body">
+    <table>
+      <tr><th>#</th><th>Drill</th><th>Reps</th><th>Cue</th></tr>
+      <tr><td>1</td><td>Upper body stretch</td><td>10 arm circles each way + 10 arm swings across chest</td><td>Loosens the shoulders so your arm swing stays relaxed</td></tr>
+      <tr><td>2</td><td>Hamstring sweeps</td><td>8 per leg</td><td>Heel forward, toes up, sweep both hands down to the floor, then step through</td></tr>
+      <tr><td>3</td><td>Knee hugs</td><td>8 per leg</td><td>Pull the knee to your chest, rise onto the toes of the standing leg</td></tr>
+      <tr><td>4</td><td>Quad stretch (walking)</td><td>8 per leg</td><td>Heel to glute, 1–2 s hold, knees together, stand tall</td></tr>
+      <tr><td>5</td><td>Piriformis stretch (walking figure-4)</td><td>6 per leg</td><td>Cradle the ankle across the opposite knee, sit back slightly</td></tr>
+      <tr><td>6</td><td>Open the gate</td><td>8 per leg</td><td>Knee up and out to the side in a circle. Then do 8 "close the gate" the opposite way</td></tr>
+      <tr><td>7</td><td>World's greatest stretch</td><td>4 per side</td><td>Lunge, elbow toward instep, rotate and reach to the sky. Slow and controlled</td></tr>
+      <tr><td>8</td><td>A-skips</td><td>2 × 15–20 m</td><td>Knee up, quick snap down under the hips, light and springy</td></tr>
+    </table>
+    <p class="note"><b>Weeks 0–2:</b> do <b>A-marches</b> (same motion, walking) instead of A-skips while your calves and Achilles adapt. Switch to skips from Week 3.</p>
+    <p class="note"><b>Order:</b> upper body → gentle → bigger ranges → A-skips last, so your legs are springy right as you start running.</p>
+  </div></div>
+</section>
+
+<div id="weeks"></div>
+
+<section id="race">
+  <h2>🏁 Race day guide</h2>
+  <div class="card"><div class="card-body">
+    <h3 style="margin-top:0">The night before &amp; morning of</h3>
+    <ul>
+      <li>Saturday: a familiar carb-rich dinner, kit laid out, early to bed.</li>
+      <li>Race morning: eat your tested pre-long-run breakfast 2–3 hours before the start.</li>
+      <li><b>Nothing new on race day:</b> no new shoes, clothes, gels, or breakfast.</li>
+    </ul>
+    <h3>Pacing</h3>
+    <table>
+      <tr><th>Section</th><th>Plan</th></tr>
+      <tr><td>km 1–3</td><td>Deliberately slower than feels natural. Everyone goes out too fast.</td></tr>
+      <tr><td>km 4–7</td><td>Settle into long-run effort.</td></tr>
+      <tr><td>km 8–10</td><td>If there's energy left, push gradually.</td></tr>
+    </table>
+    <h3>Walk-run backup</h3>
+    <p>If continuous running hasn't clicked by Week 7, race with <b>run 9 min / walk 1 min</b>. Many runners finish faster this way than by running until they crack.</p>
+    <h3>Expected finish time</h3>
+    <p>Most people returning after a long break land around <b>65–75 min</b>. Use your <a href="#w7-thu" class="jump">Week 7 5K test</a> × 2.1 for a personal estimate. Goals: <b>A)</b> finish strong, <b>B)</b> run the second half no slower than the first, <b>C)</b> the time target from your 5K test.</p>
+  </div></div>
+</section>
+
+<section id="library">
+  <h2>Strength library</h2>
+  <p class="muted">Finish every set with 2–3 good reps in reserve. Form beats weight. The weekly cards show your sets for that week. Full progression is below.</p>
+  <div id="libs"></div>
+  <div class="card" id="lib-m" style="scroll-margin-top:112px"><div class="card-body">
+    <h3 style="margin-top:0">Mobility &amp; core (Sunday, ~20 min)</h3>
+    <ul>
+      <li>Hip flexor stretch: 2 × 30 s per side</li>
+      <li>Pigeon pose: 2 × 30 s per side</li>
+      <li>Hamstring stretch: 2 × 30 s per side</li>
+      <li>Calf stretch on a step (straight and bent knee): 2 × 30 s each</li>
+      <li>Cat-cow × 10, 90/90 hip switches × 8</li>
+      <li>Front plank: 3 × 30–45 s</li>
+      <li>Foam roll calves, quads, and glutes (optional)</li>
+    </ul>
+  </div></div>
+</section>
+
+<section id="garmin">
+  <h2>Setting up runs in Garmin</h2>
+  <div class="card"><div class="card-body">
+    <ol class="steps">
+      <li>Garmin Connect app → More → Training &amp; Planning → Workouts → Create Workout → Running.</li>
+      <li>Warm Up: Time 5:00, No Target.</li>
+      <li>Delete the default Run step, then tap <b>Add Repeat</b> and set the repeat count (e.g., 8).</li>
+      <li>Inside the repeat: Run = Time (e.g., 1:00), Recover = Time (e.g., 2:00), both No Target.</li>
+      <li>Cool Down: Time 5:00. Save using the name shown on each run card (e.g., <code>W1 Tue – R1/W2×8</code>).</li>
+      <li>Drag it onto your Garmin calendar, sync, and on the watch go to Run → Training → Workouts → Do Workout.</li>
+    </ol>
+    <p class="note">Quick alternative: Run activity settings → Alerts → Run/Walk. It loops endlessly and doesn't count rounds, so stop it yourself. Menu names vary slightly by watch model.</p>
+  </div></div>
+</section>
+
+<section id="earlier">
+  <h2>If the race is earlier than 13 Dec</h2>
+  <div class="card"><div class="card-body">
+    <p><b>6 Dec:</b> merge Weeks 3 &amp; 4 (use Week 4's runs), make Week 7's Saturday the peak long run at 60 min, then taper the final week as shown in Week 9.</p>
+    <p class="muted" style="margin-bottom:0">For anything earlier, the timeline needs a rebuild.</p>
+  </div></div>
+</section>
+
+</div>
+</div>
+
+{{ end }}
+
+{{ define "scripts" }}
+<script>
+(function(){
+const iv=(r,w,n)=>`Run <b>${r} min</b> → walk <b>${w} min</b>, × ${n} <span class="muted">(${(r+w)*n} min)</span>`;
+
+const LIB={
+  A:{name:'Strength A · Lower body',id:'lib-a',ex:[
+    ['Back squat or goblet squat',['3 × 8','3 × 6–8','3 × 6','2 × 6']],
+    ['Romanian deadlift',['3 × 8','3 × 6–8','3 × 6','2 × 6']],
+    ['Reverse lunge (DBs)',['2 × 8/leg','3 × 8/leg','3 × 8/leg','2 × 6/leg']],
+    ['Single-leg glute bridge',['3 × 10/leg','3 × 12/leg','3 × 12/leg','2 × 10/leg']],
+    ['Single-leg calf raise',['3 × 12/leg','3 × 15/leg','3 × 15/leg + DB','2 × 12/leg']],
+    ['Bent-knee calf raise (soleus)',['3 × 15','3 × 15','3 × 20','2 × 15']]]},
+  B:{name:'Strength B · Upper body + core',id:'lib-b',ex:[
+    ['DB bench press or push-ups',['3 × 10','3 × 8–10','3 × 8','2 × 8']],
+    ['One-arm DB row',['3 × 10/arm','3 × 8–10/arm','3 × 8/arm','2 × 8/arm']],
+    ['Lat pulldown or pull-ups',['3 × 10','3 × 8–10','3 × 8','2 × 8']],
+    ['DB overhead press',['3 × 10','3 × 8–10','3 × 8','2 × 8']],
+    ['Band pull-aparts',['3 × 15','3 × 15','3 × 15','2 × 15']],
+    ['Dead bug',['3 × 8/side','3 × 10/side','3 × 10/side','2 × 8/side']],
+    ['Side plank',['3 × 30 s/side','3 × 40 s/side','3 × 45 s/side','2 × 30 s/side']]]},
+  C:{name:'Strength C · Single-leg + stability',id:'lib-c',ex:[
+    ['Step-ups, knee height (DBs)',['3 × 8/leg','3 × 8/leg','3 × 10/leg','2 × 8/leg']],
+    ['Single-leg RDL',['3 × 8/leg','3 × 8/leg','3 × 10/leg','2 × 8/leg']],
+    ['Lateral band walks',['3 × 12 each way','3 × 12 each way','3 × 15 each way','2 × 12 each way']],
+    ['Clamshells (band)',['2 × 15/side','2 × 15/side','2 × 20/side','2 × 15/side']],
+    ['Single-leg balance',['3 × 30 s/leg','3 × 30 s eyes closed','3 × 45 s eyes closed','2 × 30 s/leg']],
+    ['Tibialis raises (back to wall)',['2 × 15','3 × 15','3 × 20','2 × 15']],
+    ['Pogo hops (small, quick)',['—','—','3 × 20','2 × 20']]]}
+};
+const PHASES=['Weeks 1–2','Weeks 3–4','Weeks 5–7','Week 8+'];
+const LOADNOTE={
+  A:['~70–75% of your old working weights. Leave 3 reps in the tank.','Build toward your old weights by the end of Week 4.','Hold steady at about 7/10 effort. No PRs.','Drop the weights ~20%. Taper.'],
+  B:['~70–75% of old weights.','Build back to old weights; upper body can come back faster.','Maintain. Upper-body progress is fine here.','Lighter, 2 sets.'],
+  C:['Moderate DBs, controlled tempo.','Add a little load if form is perfect.','Pogo hops added for springy ankles.','Lighter, 2 sets.']
+};
+const phaseOf=n=>n<=2?0:n<=4?1:n<=7?2:3;
+
+function strBlock(k,n,extra){
+  const L=LIB[k],p=phaseOf(n);
+  const rows=L.ex.filter(e=>e[1][p]!=='—').map(e=>`<tr><td>${e[0]}</td><td>${e[1][p]}</td></tr>`).join('');
+  return `<div class="load">${extra||LOADNOTE[k][p]}</div><table>${rows}</table><div class="note"><a href="#${L.id}" class="jump">Full progression →</a></div>`;
+}
+function runBlock(r,n,dow){
+  return `<div class="note" style="margin-top:0">Before: 5 min brisk walk + <a href="#warmup" class="jump">warm-up drills</a>${n<=2?' (A-marches, not skips)':''}</div><div class="main">${r.m}</div>${r.note?`<div class="note">${r.note}</div>`:''}<div class="garmin-cmd">Garmin: W${n} ${dow} – ${r.g}</div>`;
+}
+const MOB=`<ul><li><a href="#lib-m" class="jump">Mobility &amp; core routine</a> (~20 min). This is your optional 4th strength session.</li><li>Easy walk if you feel like it.</li><li><b>Weekly check-in:</b> rate your energy, soreness, and any niggles from 1–10. If two or more are bad, repeat this week.</li><li>Build next week's runs in Garmin and drop them on the calendar.</li></ul>`;
+
+function stdWeek(n,tue,thu,sat,wed){
+  const sun={k:'rest',tag:'Rest',t:'Rest + mobility',h:MOB};
+  return [
+    {k:'str',tag:'Strength',t:LIB.A.name,h:strBlock('A',n)},
+    {k:'run',tag:'Run',t:tue.t||'Easy run',h:runBlock(tue,n,'Tue')},
+    wed?{k:'combo',tag:'Run + Strength',t:'Easy run + '+LIB.B.name,h:`<div class="block-title">Run 4 (do this first)</div>${runBlock(wed,n,'Wed')}<div class="block-title">Strength B (later in the day, or straight after)</div>${strBlock('B',n)}`}
+       :{k:'str',tag:'Strength',t:LIB.B.name,h:strBlock('B',n)},
+    {k:'run',tag:'Run',t:thu.t||'Easy run',h:runBlock(thu,n,'Thu')},
+    {k:'str',tag:'Strength',t:LIB.C.name,h:strBlock('C',n)},
+    {k:'run',tag:'Long run',t:sat.t||'Long run',h:runBlock(sat,n,'Sat')},
+    sun];
+}
+const OUT='Outdoors if possible: early morning, flat route.';
+
+const WEEKS=[
+ {n:0,phase:'Warm-up week',focus:'Wake the body up. Everything should feel almost too easy.',start:new Date(2026,9,8),days:[
+  {k:'run',tag:'Run',t:'First run back',h:runBlock({m:iv(1,2,6)+'<br><span class="muted">Run at 7.5 km/h, walk at ~6 km/h.</span>',g:'R1/W2×6',note:'Slightly shorter than Week 1 on purpose. Eat something light 60–90 min before.'},0,'Thu')},
+  {k:'str',tag:'Strength',t:'Full-body re-entry',h:`<div class="load">60–70% of your old weights, 3 reps left in the tank.</div><table>
+    <tr><td>Back squat or goblet squat</td><td>3 × 8</td></tr><tr><td>Romanian deadlift</td><td>3 × 8</td></tr>
+    <tr><td>DB bench press or push-ups</td><td>3 × 10</td></tr><tr><td>One-arm DB row</td><td>3 × 10/arm</td></tr>
+    <tr><td>Reverse lunge (light DBs)</td><td>2 × 8/leg</td></tr><tr><td>Calf raises</td><td>3 × 15</td></tr>
+    <tr><td>Dead bug or plank</td><td>3 × 8/side or 30 s</td></tr></table>`},
+  {k:'run',tag:'Run',t:'Second run',h:runBlock({m:iv(1,2,8),g:'R1/W2×8',note:OUT+' If your legs are properly sore from Friday, do a 30-min brisk walk instead.'},0,'Sat')},
+  {k:'rest',tag:'Rest',t:'Rest + mobility',h:`<ul><li>Hip flexor, hamstring, and calf stretches: 2 × 30 s per side</li><li>Cat-cow × 10, 90/90 hip switches × 8</li><li>Easy walk if you like</li><li>Build Week 1's runs in Garmin Connect and add them to your calendar.</li></ul>`}]},
+ {n:1,phase:'Phase 1 · Rebuild',focus:'Learn the run/walk rhythm. Strength at ~70–75% of old weights.',days:stdWeek(1,
+   {m:iv(1,2,8),g:'R1/W2×8'},{m:iv(1,2,8),g:'R1/W2×8'},{m:iv(1,2,10),g:'R1/W2×10',note:OUT})},
+ {n:2,phase:'Phase 1 · Rebuild',focus:'Longer run segments. Every run stays conversational.',days:stdWeek(2,
+   {m:iv(2,2,7),g:'R2/W2×7'},{m:iv(2,2,7),g:'R2/W2×7'},{m:iv(2,1,10),g:'R2/W1×10',note:OUT})},
+ {n:3,phase:'Phase 1 · Rebuild',focus:'Walk breaks shrink to 1 minute. Strength builds toward your old numbers.',days:stdWeek(3,
+   {m:iv(3,1,7),g:'R3/W1×7'},{m:iv(3,1,7),g:'R3/W1×7'},{m:iv(4,1,7),g:'R4/W1×7',note:OUT})},
+ {n:4,phase:'Phase 1 · Rebuild',focus:'5–6 minute run blocks. Last week of Phase 1.',days:stdWeek(4,
+   {m:iv(5,1,5),g:'R5/W1×5'},{m:iv(5,1,4),g:'R5/W1×4'},{m:iv(6,1,5),g:'R6/W1×5',note:OUT})},
+ {n:5,phase:'Phase 2 · Build',focus:'4th run added on Wednesdays. 8–10 minute run blocks.',days:stdWeek(5,
+   {m:iv(8,1,3),g:'R8/W1×3'},
+   {m:'Run <b>10 min</b> → walk <b>1 min</b>, × 2, then <b>5 min</b> easy run <span class="muted">(27 min)</span>',g:'R10/W1×2 + 5'},
+   {m:iv(10,1,4)+' <span class="muted">≈ 5–6 km</span>',g:'R10/W1×4',note:OUT},
+   {m:'<b>15 min</b> easy, continuous',g:'Easy 15',note:'Very gentle. Shuffle pace is fine.'})},
+ {n:6,phase:'Phase 2 · Build',focus:'First continuous runs! Long run ≈ 6 km.',days:stdWeek(6,
+   {m:'<b>25 min</b> continuous easy run',g:'Easy 25',note:'If you need a walk break, take 1 min and carry on. No shame.'},
+   {m:'<b>25 min</b> continuous easy run',g:'Easy 25'},
+   {m:'<b>45 min</b> easy <span class="muted">≈ 6 km</span>',g:'Long 45',note:OUT+' Walk 1 min every 15 min if needed.'},
+   {m:'<b>20 min</b> easy',g:'Easy 20'})},
+ {n:7,phase:'Phase 2 · Build',focus:'Strides and a 5K test. Long run ≈ 7–8 km.',days:stdWeek(7,
+   {m:'<b>30 min</b> easy + <b>4 × 20 s strides</b> with full walk recovery',g:'Easy 30 + strides'},
+   {t:'5K test',m:'<b>5K at "comfortably hard"</b> effort (6–7/10). Log it on Garmin.',g:'5K test',note:'Your 5K time × 2.1 ≈ your realistic 10K time. Example: 33 min → ~69 min.'},
+   {m:'<b>55 min</b> easy <span class="muted">≈ 7–8 km</span>',g:'Long 55',note:OUT+' Take water if it\'s warm.'},
+   {m:'<b>20 min</b> easy',g:'Easy 20'})},
+ {n:8,phase:'Phase 3 · Sharpen',focus:'Peak week: your first quality session and longest run (≈ 9–10 km). Strength drops to 2 sets.',days:stdWeek(8,
+   {t:'Tempo intervals',m:'<b>10 min</b> easy → <b>3 × 5 min</b> comfortably hard (2 min easy jog between) → <b>5 min</b> easy',g:'Tempo 3×5',note:'Comfortably hard ≈ 9–10 km/h on a treadmill. You can say a few words, not full sentences.'},
+   {m:'<b>30 min</b> easy',g:'Easy 30'},
+   {t:'Peak long run',m:'<b>65–70 min</b> easy <span class="muted">≈ 9–10 km</span>',g:'Long 70',note:OUT+' Practise your race-morning breakfast before this run.'},
+   {m:'<b>25 min</b> easy',g:'Easy 25'})},
+ {n:9,phase:'Race week',focus:'Taper. Less is more. Arrive at the start with fresh, bouncy legs.',days:[
+  {k:'rest',tag:'Rest',t:'Rest + light mobility',h:'<ul><li>No leg strength this week.</li><li>15 min of gentle mobility from the <a href="#lib-m" class="jump">routine</a>.</li></ul>'},
+  {k:'run',tag:'Run',t:'Easy + strides',h:runBlock({m:'<b>25 min</b> easy + <b>4 × 20 s strides</b>',g:'Easy 25 + strides'},9,'Tue')},
+  {k:'str',tag:'Strength',t:'Light upper body only',h:strBlock('B',9,'2 sets at ~60% of your weights. Upper body and core only.')},
+  {k:'run',tag:'Run',t:'Very easy shakeout',h:runBlock({m:'<b>15–20 min</b> very easy',g:'Easy 20'},9,'Thu')},
+  {k:'rest',tag:'Rest',t:'Rest',h:'<ul><li>Full rest. Hydrate well.</li><li>Confirm race logistics: bib pickup, start time, and how you\'ll get there.</li></ul>'},
+  {k:'rest',tag:'Rest',t:'Rest or 10-min shakeout',h:'<ul><li>Optional 10 min very easy jog + 2 strides.</li><li>Familiar carb-rich dinner, kit laid out, early to bed.</li></ul>'},
+  {k:'race',tag:'Race',t:'🏁 10K race day',h:'<div class="main">Start slower than feels natural, settle in, and finish strong.</div><div class="note"><a href="#race" class="jump">Open the race-day guide →</a></div>'}]}
+];
+
+const dk=d=>`${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
+const fmt=d=>d.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});
+const fmtShort=d=>d.toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+WEEKS.forEach(w=>{
+  const base=w.start||new Date(2026,9,12+7*(w.n-1));
+  w.days.forEach((d,i)=>{d.date=new Date(base.getFullYear(),base.getMonth(),base.getDate()+i);d.dow=d.date.toLocaleDateString('en-GB',{weekday:'short'}).toLowerCase().slice(0,3);d.id=`w${w.n}-${d.dow}`;});
+  w.range=`${fmtShort(w.days[0].date)} – ${fmtShort(w.days[w.days.length-1].date)}`;
+});
+
+const tagCls={run:'pill-teal',str:'pill-amber',combo:'pill-teal',rest:'pill-ghost',race:'pill-red'};
+document.getElementById('weeks').innerHTML=WEEKS.map(w=>`
+<section id="week-${w.n}">
+  <div class="weekhead"><div><div class="phase">${w.phase}</div><h2>Week ${w.n} <span class="muted" style="font-weight:400;font-size:16px">· ${w.range}</span></h2></div><a href="#top" class="backtop jump">↑ Top</a></div>
+  <p class="muted" style="margin:2px 0 0">${w.focus}</p>
+  <div class="daynav">${w.days.map(d=>`<a href="#${d.id}" class="jump k-${d.k}">${fmt(d.date)}</a>`).join('')}</div>
+  ${w.days.map(d=>`
+  <article class="day k-${d.k}" id="${d.id}" data-date="${dk(d.date)}">
+    <div class="top"><div><span class="dow">${fmt(d.date)}</span> <span class="pill ${tagCls[d.k]}">${d.tag}</span></div>
+    <label class="done"><input type="checkbox" data-id="${d.id}"> Done</label></div>
+    <h4>${d.t}</h4>${d.h}
+  </article>`).join('')}
+</section>`).join('');
+
+document.getElementById('libs').innerHTML=Object.values(LIB).map(L=>`
+<div class="card" id="${L.id}" style="scroll-margin-top:112px"><div class="card-body">
+  <h3 style="margin-top:0">${L.name}</h3>
+  <div style="overflow-x:auto"><table><tr><th>Exercise</th>${PHASES.map(p=>`<th>${p}</th>`).join('')}</tr>
+  ${L.ex.map(e=>`<tr><td>${e[0]}</td>${e[1].map(x=>`<td>${x}</td>`).join('')}</tr>`).join('')}</table></div>
+</div></div>`).join('');
+
+const navEl=document.getElementById('nav');
+navEl.innerHTML=`<a class="filter-btn active" id="todayBtn">📍 Today</a><a class="filter-btn jump" href="#overview">Overview</a><a class="filter-btn jump" href="#paces">Paces</a><a class="filter-btn jump" href="#warmup">Warm-up</a>`+
+  WEEKS.map(w=>`<a class="filter-btn wk jump" data-w="${w.n}" href="#week-${w.n}">Wk ${w.n}</a>`).join('')+
+  `<a class="filter-btn jump" href="#race">🏁 Race</a><a class="filter-btn jump" href="#library">Strength</a><a class="filter-btn jump" href="#garmin">Garmin</a>`;
+
+function go(id){const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});}
+document.addEventListener('click',e=>{const a=e.target.closest('a.jump');if(a){const h=a.getAttribute('href');if(h&&h.startsWith('#')){e.preventDefault();go(h.slice(1));}}});
+
+const now=new Date();
+const todayCard=document.querySelector(`.day[data-date="${dk(now)}"]`);
+if(todayCard)todayCard.classList.add('is-today');
+document.getElementById('todayBtn').onclick=()=>{
+  if(todayCard)return go(todayCard.id);
+  if(now<new Date(2026,9,8))return go('w0-thu');
+  go('race');
+};
+
+let done={};
+const boxes=[...document.querySelectorAll('input[data-id]')];
+function apply(){
+  boxes.forEach(b=>{b.checked=!!done[b.dataset.id];b.closest('.day').classList.toggle('is-done',b.checked);});
+  const n=boxes.filter(b=>b.checked).length;
+  document.getElementById('statDone').textContent=`${n} / ${boxes.length}`;
+  document.getElementById('bar').style.width=(n/boxes.length*100)+'%';
+  WEEKS.forEach(w=>{const all=w.days.every(d=>done[d.id]);const c=navEl.querySelector(`[data-w="${w.n}"]`);if(c)c.classList.toggle('done',all);});
+}
+function save(){try{localStorage.setItem('tenk-plan-done',JSON.stringify(done));}catch(e){}}
+boxes.forEach(b=>b.addEventListener('change',()=>{if(b.checked)done[b.dataset.id]=1;else delete done[b.dataset.id];apply();save();}));
+try{const raw=localStorage.getItem('tenk-plan-done');if(raw)done=JSON.parse(raw);}catch(e){}
+apply();
+})();
+</script>
+{{ end }}
