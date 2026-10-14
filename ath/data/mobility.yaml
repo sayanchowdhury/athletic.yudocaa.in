@@ -148,7 +148,7 @@ schedule:
 
   sat:
     label: "Saturday"
-    session: "Cardio — Zone 2"
+    session: "Cardio, easy"
     morning_duration: "~57 min"
     regions: ["hips", "hip_flexors", "neck", "shoulders", "thoracic", "wrists", "lumbar", "knees", "ankles"]
     has_strength: false

@@ -50,7 +50,7 @@
     </div>
     <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
       <div style="font-family:var(--font-mono);font-size:11px;color:var(--grey-5)">
-        <span id="tracker-count" style="color:var(--acid)">0</span> entries since 01 Mar 2026
+        <span id="tracker-count" style="color:var(--acid)">0</span> active days since 01 Mar 2026
       </div>
       <div style="display:flex;align-items:center;gap:4px;font-family:var(--font-mono);font-size:10px;color:var(--grey-5)">
         Less
@@ -72,6 +72,10 @@
     {{ range $matches }}
   loggedDates.add(new Date("{{ replaceRE "### " "" . }}").toISOString().slice(0,10));
     {{ end }}
+  {{ end }}
+  {{/* Garmin activities (ath/data/activities.yaml, written by scripts/sync-activities.py) */}}
+  {{ range hugo.Data.activities }}
+  loggedDates.add("{{ .date }}");
   {{ end }}
 
   var startDate = new Date(2026, 2, 1); // March 1, 2026

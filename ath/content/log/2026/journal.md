@@ -17,6 +17,24 @@ To explain the jargons:
 
 Ok, lets start.
 
+
+### March 31, 2026
+```
+cw: 
+```
+Sunday was a relax day, and in terms of food also. We drove to the airport and it 
+was a fun drive. Walking was only in-form of the all the walking we did at the mall.
+
+Loved the relaxing day every minute!
+### March 30, 2026
+```
+cw: 
+```
+Sunday was a relax day, and in terms of food also. We drove to the airport and it 
+was a fun drive. Walking was only in-form of the all the walking we did at the mall.
+
+Loved the relaxing day every minute!
+
 ### March 29, 2026
 ```
 cw: 83.6

@@ -1,0 +1,18 @@
+[
+  {
+    "id": "24716530613_ACTIVITY",
+    "date": "2026-10-13",
+    "start": "19:42",
+    "type": "walk",
+    "distance_km": 3.0,
+    "moving_time": "29:22"
+  },
+  {
+    "id": "24716531431_ACTIVITY",
+    "date": "2026-10-13",
+    "start": "20:14",
+    "type": "run",
+    "distance_km": 1.51,
+    "moving_time": "14:19"
+  }
+]

@@ -1,0 +1,122 @@
+# data/plan10k.yaml
+# Single source for the 10K plan page. Edit here, not in the layout.
+# Weeks start on Mondays (week 0 starts Wed 14 Oct). `tag` is event, test or race.
+
+race_date: "2027-02-07"
+start_date: "2026-10-14"
+
+goals:
+  - title: "Milestone 1: untimed 10K"
+    when: "Mid-December 2026 (date to be confirmed)"
+    lines:
+      - "Finish comfortably, with walk breaks."
+      - "Pace does not matter."
+  - title: "Milestone 2: timed 10K"
+    when: "Sun 7 Feb 2027"
+    lines:
+      - "Floor: under 75 min (7:30/km)"
+      - "Target: about 68 min (6:48/km)"
+      - "Stretch: 60 min (6:00/km)"
+    note: "Re-set after the week 13 5K test. Goal 10K time is about 2.1 x that 5K time."
+
+baseline:
+  date: "13 Oct 2026"
+  source: "Garmin .FIT files"
+  blocks:
+    - title: "Walk"
+      stats:
+        - ["3.0 km", "distance"]
+        - ["29:22", "moving time"]
+        - ["9:47/km", "pace"]
+        - ["134 bpm", "avg HR (max 146)"]
+      text: "Heart rate rose from 116 to about 144 bpm at a flat pace. That is heat drift (29 to 31 C)."
+    - title: "Run/walk"
+      stats:
+        - ["1.51 km", "distance"]
+        - ["14:19", "time"]
+        - ["~400 m", "actual running"]
+        - ["158 bpm", "avg HR (max 168)"]
+      text: "Running pace averaged about 8:17/km (best 6:40/km). Walk breaks never recovered below about 142 bpm."
+  lesson: "Too hard for a first day. Run easy, use walk breaks, and do not walk 3 km before a run."
+
+phases:
+  - name: "Phase 1"
+    title: "Untimed 10K"
+    blurb: "3 days a week, never back-to-back. Two short runs and one long session."
+    weeks:
+      - {n: 0,  start: "2026-10-14", short: "2 x 20 min of 1 min run / 2 min walk", long: "None"}
+      - {n: 1,  start: "2026-10-19", short: "25 min of 1/2", long: "30 min of 1/2"}
+      - {n: 2,  start: "2026-10-26", short: "25 to 30 min of 2/1", long: "35 min of 2/1"}
+      - {n: 3,  start: "2026-11-02", short: "30 min of 3/1", long: "4 km of 3/1"}
+      - {n: 4,  start: "2026-11-09", short: "Down week: repeat wk 2", long: "4 km"}
+      - {n: 5,  start: "2026-11-16", short: "30 min of 5/1", long: "5.5 km of 5/1"}
+      - {n: 6,  start: "2026-11-23", short: "30 min of 8/1", long: "6.5 km"}
+      - {n: 7,  start: "2026-11-30", short: "30 min of 8/1", long: "8 km (peak long session)"}
+      - {n: 8,  start: "2026-12-07", short: "2 easy 20 min runs", long: "Event, around 13 Dec", tag: event}
+  - name: "Phase 2"
+    title: "Timed 10K"
+    blurb: "Continuous running. One harder session a week at most."
+    weeks:
+      - {n: 9,  start: "2026-12-14", short: "Recovery: 3 easy runs of 25 to 30 min", long: "5 km"}
+      - {n: 10, start: "2026-12-21", short: "Easy continuous 35 min", long: "7 km"}
+      - {n: 11, start: "2026-12-28", short: "Easy 35 to 40 min + 4 x 20 s strides", long: "8 km"}
+      - {n: 12, start: "2027-01-04", short: "2 x 8 min steady", long: "9 km"}
+      - {n: 13, start: "2027-01-11", short: "5 km at hard but even effort", long: "6 km easy", tag: test, label: "5K test"}
+      - {n: 14, start: "2027-01-18", short: "3 x 8 min steady", long: "10 km easy"}
+      - {n: 15, start: "2027-01-25", short: "2 x 10 min at goal 10K pace", long: "8 km"}
+      - {n: 16, start: "2027-02-01", short: "2 short easy runs with 4 strides", long: "Race Sat/Sun 7 Feb", tag: race}
+
+rules:
+  - title: "Easy is easy"
+    text: "80% of running passes the talk test. Talk test comes first, heart rate second."
+  - title: "Heart rate"
+    text: "Garmin Zone 2 is about 115 to 134 bpm, but Garmin assumes max HR 191 and that may be wrong. In 29 to 31 C heat, up to about 140 to 145 bpm can still be easy."
+  - title: "Heat"
+    text: "Run early morning or after dark. Carry water."
+  - title: "Load"
+    text: "Raise weekly time by at most about 10%. If a week is missed, repeat the previous week."
+  - title: "Pain"
+    text: "Anything beyond mild soreness: take an extra rest day."
+  - title: "Non-run days"
+    text: "Walk 30 to 45 min at easy effort (about 110 to 125 bpm). Keep one full rest day each week."
+
+warmup:
+  title: "Run warm-up (8 to 10 min)"
+  items: ["5 min brisk walk", "Leg swings", "10 squats", "Calf raises", "Walking lunges", "Marching", "Glute bridges"]
+  note: "Skip long static stretches before running."
+
+strength:
+  intro: "2 sessions a week at the gym, alternating A and B, 40 to 50 min."
+  rules:
+    - "Weeks 1 and 2: start light and stop with 2 to 3 reps in reserve."
+    - "Heavy leg days at least 48 hours before the long run."
+    - "Last 2 weeks before each race: drop to 1 light session."
+  sessions:
+    - name: "Session A"
+      focus: "Lower + core"
+      rows:
+        - ["Goblet squat or leg press", "3 x 8 to 12"]
+        - ["Dumbbell Romanian deadlift", "3 x 8 to 10"]
+        - ["Walking lunge or split squat", "3 x 8/leg"]
+        - ["Hip thrust or glute bridge", "3 x 10"]
+        - ["Calf raise", "3 x 12 to 15"]
+        - ["Cable crunch or plank", ""]
+        - ["Dead bug", "3 x 8/side"]
+    - name: "Session B"
+      focus: "Upper + core"
+      rows:
+        - ["Chest press", "3 x 8 to 10"]
+        - ["Lat pulldown or assisted pull-up", "3 x 8 to 10"]
+        - ["Seated cable row", "3 x 10"]
+        - ["Dumbbell shoulder press", "3 x 8 to 10"]
+        - ["Single-leg Romanian deadlift", "2 x 8/leg"]
+        - ["Pallof press or side plank", ""]
+        - ["Bird dog", ""]
+  week:
+    - ["Mon", "Run", "run"]
+    - ["Tue", "Session A", "str"]
+    - ["Wed", "Rest or walk", "rest"]
+    - ["Thu", "Run", "run"]
+    - ["Fri", "Session B", "str"]
+    - ["Sat", "Long run", "run"]
+    - ["Sun", "Rest", "rest"]

@@ -1,7 +1,10 @@
-.PHONY: build sync-stats
+.PHONY: build sync-stats sync-activities
 
 sync-stats:
 	@python3 scripts/sync-stats.py
 
-build: sync-stats
+build: sync-stats sync-activities
 	hugo
+
+sync-activities:
+	@python3 scripts/sync-activities.py
